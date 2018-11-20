@@ -8,9 +8,9 @@ ini_set('display_errors', 1);
  * Time: 10:58
  */
 
-include "pdo/dsn.php";
+include "../models/private/pdo/dsn.php";
 include "passwordHasher.php";
-include "../private/models/CustomerFormModel.class.php";
+include "../models/private/formsModel/CustomerFormModel.class.php";
 
 $todayDate = date('Y-m-d');
 $idOfNewUser = "";
