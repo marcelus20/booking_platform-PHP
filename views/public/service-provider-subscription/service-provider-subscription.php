@@ -70,6 +70,8 @@ include "../templates/header.php";
                        aria-describedby="eir-code" placeholder="eir-code">
             </div>
 
+            <div id = "alert"></div>
+
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>

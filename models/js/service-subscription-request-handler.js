@@ -31,15 +31,33 @@ formElement.addEventListener("submit", (e)=>{
 
     const serviceModel = new ServiceModel(email, password, confirmPassword, phone, companyName, firstLineAddress, secondLineAddress, city, eirCode);
 
+    try{
+        fetch("/booking_platform/controllers/subscribe-service.php", {
+            method: "POST",
+            headers:{
+                "Content-Type": "application/json; charset=utf-8"
+            },
+            body: JSON.stringify(serviceModel),
+        }).then(response=>response.text())
+            .then(responseText=>{
+                const message = document.querySelector("#alert");
+                message.innerHTML =
+                    `<div class="alert alert-success" role="alert">
+                    Your data has been saved to the database. You may be able to login now
+                 </div>`;
+                console.log(responseText)
 
-    fetch("/booking_platform/controllers/subscribe-service.php", {
-        method: "POST",
-        headers:{
-            "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(serviceModel),
-    }).then(response=>response.text())
-        .then(responseText=>console.log(responseText));
+            });
+
+    }catch (e) {
+        console.log(e);
+        const message = document.querySelector("#alert");
+        message.innerHTML = `
+        <div class="alert alert-warning" role="alert">
+            Something went wrong - ${e}
+        </div>
+        `;
+    }
 
 
 

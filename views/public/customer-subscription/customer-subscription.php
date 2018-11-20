@@ -53,6 +53,10 @@ include "../templates/header.php";
                        aria-describedby="last-name" placeholder="last-name">
             </div>
 
+            <div id="alert">
+
+            </div>
+
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>

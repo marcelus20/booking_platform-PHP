@@ -42,9 +42,23 @@ form.addEventListener("submit", (event)=>{
             },
             body: JSON.stringify(formModel)
         }).then((data) => data.text())
-            .then(text => console.log(text));
+            .then(text => {
+                console.log(text)
+                const message = document.querySelector("#alert");
+                message.innerHTML =
+                    `<div class="alert alert-success" role="alert">
+                    Your data has been saved to the database. You may be able to login now
+                 </div>`;
+
+            });
     }catch (e) {
         console.log(e);
+        const message = document.querySelector("#alert");
+        message.innerHTML = `
+        <div class="alert alert-warning" role="alert">
+            Something went wrong - ${e}
+        </div>
+        `;
     }
     return false;
 });
