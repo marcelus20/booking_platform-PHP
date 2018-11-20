@@ -35,7 +35,7 @@ form.addEventListener("submit", (event)=>{
 
         const formModel = new CustomerFormModel(email, password, confirmPassword, phone, firstName, lastName);
         console.log(formModel);
-        fetch("/booking_platform/private/subscribe-customer.php", {
+        fetch("/booking_platform/controllers/subscribe-customer.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=utf-8"
