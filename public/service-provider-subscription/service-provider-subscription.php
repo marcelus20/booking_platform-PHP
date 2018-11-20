@@ -3,21 +3,20 @@
  * Created by PhpStorm.
  * User: felipe
  * Date: 19/11/18
- * Time: 10:42
+ * Time: 17:18
  */
 
 include "../templates/header.php";
-
 ?>
 
 
 <div class="formclass">
     <div class="card">
 
-        <h1 class="card-header">Customer sign up form</h1>
+        <h1 class="card-header">Service Provider Signup Form</h1>
 
 
-        <form id="customer-subscription">
+        <form action="../../private/subscribe-customer.php" method="post">
             <div class="form-group">
                 <label for="email">Email address</label>
                 <input type="email" class="form-control" name="email-input" id="email" aria-describedby="email" placeholder="Enter email">
@@ -41,14 +40,20 @@ include "../templates/header.php";
                        aria-describedby="phone" placeholder="phone">
             </div>
 
-            <div class="form-group">
-                <label for="first-name">First Name</label>
-                <input type="text" class="form-control" name="first-name-input" id="first-name"
+            <div class="form-group">git
+                <label for="company-name">Company Name</label>
+                <input type="text" class="form-control" name="company-name-input" id="first-name"
                        aria-describedby="first-name" placeholder="first-name">
             </div>
 
             <div class="form-group">
-                <label for="last-name">Last Name</label>
+                <label for="first-line-address">First Line Address</label>
+                <input type="text" class="form-control" name="last-name-input" id="last-name"
+                       aria-describedby="last-name" placeholder="last-name">
+            </div>
+
+            <div class="form-group">
+                <label for="last-name">Second Line Address</label>
                 <input type="text" class="form-control" name="last-name-input" id="last-name"
                        aria-describedby="last-name" placeholder="last-name">
             </div>
@@ -58,10 +63,4 @@ include "../templates/header.php";
     </div>
 </div>
 
-
-<script src="../../js/script.js"></script>
-<?php
-include "../templates/footer.php";
-?>
-
-
+<?php include "../templates/footer.php"?>

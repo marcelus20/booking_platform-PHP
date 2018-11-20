@@ -7,13 +7,16 @@
 
 ?>
 
-<?php include("templates/header.php") ?>
+<?php include "public/templates/header.php" ?>
 
+<link rel="stylesheet" href="css/style.css">
 
-<div class="formclass">
+    <h1 class="title">Welcome to the Barbers/Hairdresser Booking Platform System</h1>
+
+<div class="formclass" id="loginform">
     <div class="card">
         <h1 class="card-header">Log in</h1>
-        <form action="../private/login.php" method="POST">
+        <form>
             <div class="form-group">
                 <label for="email">Email address</label>
                 <input type="email" class="form-control" id="email" name="email-input" aria-describedby="emailHelp" placeholder="Enter email">
@@ -30,4 +33,6 @@
 </div>
 
 
-<?php include("templates/footer.php") ?>
+<script type="text/javascript" src="js/login.js"></script>
+
+<?php include("public/templates/footer.php") ?>

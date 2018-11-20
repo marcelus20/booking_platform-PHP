@@ -8,17 +8,35 @@
 
 include ("passwordHasher.php");
 include("pdo/dsn.php");
+include "../private/models/LoginModel.php";
 
-$email = $_POST["email-input"];
-$pass = passwordHasher($_POST["password-input"]);
+
+$data = json_decode(file_get_contents('php://input'), true);
+
+//var_dump($data);
+
+
+
+$loginModel = new LoginModel($data["email"], passwordHasher($data["password"]));
+
 
 try{
     $conn = new PDO($dsn, $username, $password, $options);
 
-    $conn->exec("SELECT * FROM users WHERE email = '$email' AND password = '$pass'");
+    $st = $conn->prepare("SELECT * FROM users WHERE email = :email AND password = :password");
+
+    $st->bindValue(":email", $loginModel->getEmail(), PDO::PARAM_STR);
+    $st->bindValue(":password", $loginModel->getPassword(), PDO::PARAM_STR);
+
+    $st->execute();
+
+
+
+    echo true;
 
 
 }catch (PDOException $e){
     echo $e->getMessage();
+    echo false;
 }
 
