@@ -6,9 +6,9 @@
  * Time: 09:27
  */
 
-include ("passwordHasher.php");
+include("passwordHasher.php");
 include("pdo/dsn.php");
-include "../private/models/LoginModel.php";
+include "../private/formsModel/LoginModel.php";
 
 
 $data = json_decode(file_get_contents('php://input'), true);
