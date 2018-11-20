@@ -7,9 +7,9 @@
 
 ?>
 
-<?php include "public/templates/header.php" ?>
+<?php include "views/public/templates/header.php" ?>
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="views/public/css/style.css">
 
     <h1 class="title">Welcome to the Barbers/Hairdresser Booking Platform System</h1>
 
@@ -33,6 +33,6 @@
 </div>
 
 
-<script type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript" src="models/js/login.js"></script>
 
-<?php include("public/templates/footer.php") ?>
+<?php include("views/public/templates/footer.php") ?>
