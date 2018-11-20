@@ -6,7 +6,7 @@
 
         <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-        <link rel="stylesheet" href="../../css/style.css">
+        <link rel="stylesheet" href="../css/style.css">
 
     </head>
     <body>
@@ -18,8 +18,8 @@
                 </div>
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="http://localhost/booking_platform">Home</a></li>
-                    <li><a href="http://localhost/booking_platform/public/customer-subscription/customer-subscription.php">Subscribe as a Customer</a></li>
-                    <li><a href="http://localhost/booking_platform/public/service-provider-subscription/service-provider-subscription.php">Sign up as a Service Provider</a></li>
+                    <li><a href="http://localhost/booking_platform/views/public/customer-subscription/customer-subscription.php">Subscribe as a Customer</a></li>
+                    <li><a href="http://localhost/booking_platform/views/public/service-provider-subscription/service-provider-subscription.php">Sign up as a Service Provider</a></li>
                 </ul>
                 <!--form class="navbar-form navbar-left" action="">
                     <div class="form-group">

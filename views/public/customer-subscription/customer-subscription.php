@@ -59,7 +59,7 @@ include "../templates/header.php";
 </div>
 
 
-<script src="../../js/script.js"></script>
+<script src="../../../models/js/customer-subscription-request-handler.js"></script>
 <?php
 include "../templates/footer.php";
 ?>
