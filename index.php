@@ -4,7 +4,10 @@
  * Date: 19/11/18
  * Time: 09:25
  */
-
+session_start();
+if($_SESSION){
+    header("location: "."http://localhost/booking_platform/views/public/dashboard.php");
+}
 ?>
 
 <?php include "views/public/templates/header.php" ?>
@@ -27,6 +30,9 @@
                 <label for="password">Password</label>
                 <input type="password" class="form-control" name="password-input" id="password" placeholder="Password">
             </div>
+
+            <div id="errorAlert"></div>
+
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
