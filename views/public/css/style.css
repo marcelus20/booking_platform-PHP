@@ -1,8 +1,16 @@
-.formclass{
+.formclass, .resultSet{
     width: 500px;
     height: 500px;
     margin: auto;
     padding: 10px;
+}
+
+.resultSet{
+    width: 1000px;
+}
+
+.resultSet:hover{
+    cursor: pointer;
 }
 
 .title{

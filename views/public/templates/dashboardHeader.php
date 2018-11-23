@@ -7,7 +7,7 @@
 
         <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-        <link rel="stylesheet" href="../css/style.css">
+
     </head>
 <body>
 
@@ -23,9 +23,9 @@
                 <li><a href="#">make a review</a></li>
                 <li><a href="#">make a complaint about barber</a></li>
             </ul>
-            <form class="navbar-form navbar-left" action="/action_page.php">
+            <form class="navbar-form navbar-left">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search Barbers">
+                    <input type="text" class="form-control" placeholder="Search Barbers" id="searchEngine">
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
             </form>
@@ -37,3 +37,4 @@
 
 
 
+    <script src="/booking_platform/models/js/serviceSearchEngine.js"></script>

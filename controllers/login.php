@@ -40,6 +40,7 @@ try{
             $sessionModel->setUsertype($row["user_type"]);
         }
         $_SESSION["id"] = $sessionModel->getUserId();
+        $_SESSION["usert_type"] = $sessionModel->getUsertype();
         header("location: "."http://localhost/booking_platform/views/public/dashboard.php");
         exit();
     }else{

@@ -11,10 +11,19 @@ if($_SESSION["id"] == null){
     header("location: http://localhost/booking_platform/");
 }
 //include "templates/header.php";
-include "templates/dashboardHeader.php";
+include "templates/dashboardHeader.php";?>
 
-var_dump($_SESSION);
-?>
+    <link rel="stylesheet" href="css/style.css">
+
+
+<div class="resultSet">
+    <div id="table">
+
+    </div>
+</div>
+
+
+
 
 
 
