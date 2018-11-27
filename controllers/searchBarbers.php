@@ -14,8 +14,8 @@ $data = json_decode(file_get_contents('php://input'));
 try{
     $conn = new PDO($dsn, $username, $password, $options);
 
-    $stmt = $conn->prepare("SELECT s.company_full_name, l.first_line_address, l.second_line_address, l.city FROM service_provider s JOIN location l 
-ON l.s_id = s.s_id WHERE s.company_full_name LIKE :fullName");
+    $stmt = $conn->prepare("SELECT * FROM service_provider s JOIN location l 
+ON l.s_id = s.s_id WHERE s.company_full_name LIKE :fullName;");
 
     $stmt->bindValue(":fullName", "%".$data->fullName."%");
     $stmt->execute();
