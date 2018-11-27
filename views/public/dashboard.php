@@ -15,7 +15,7 @@ include "templates/dashboardHeader.php";?>
 
     <link rel="stylesheet" href="css/style.css">
 
-
+<div></div>
 <div class="resultSet">
     <div id="table">
 
