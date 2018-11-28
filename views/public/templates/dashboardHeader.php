@@ -19,7 +19,7 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
 <!--                <li><a href="#">Look for barbers</a></li>-->
-                <li><a href="#">View your bookings</a></li>
+                <li><a href="#" id="view-your-bookings">View your bookings</a></li>
                 <li><a href="#">make a review</a></li>
                 <li><a href="#">make a complaint about barber</a></li>
             </ul>

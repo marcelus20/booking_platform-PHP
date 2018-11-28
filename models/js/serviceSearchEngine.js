@@ -3,6 +3,7 @@ let state = {};
 
 const inputElement = document.querySelector("#searchEngine");
 
+
 const searchBarber = (value) =>{
     const obj = {};
     obj.fullName = value;
@@ -34,10 +35,12 @@ const fectchToHTML = () => {
     state.barbers.map((barber, index)=> {
         innerHTMLSTR += `
             <tr onclick="addRowAListener(${index})">
-                <td>${barber["company_full_name"]}</td>
+                <td><strong>${barber["company_full_name"]}</strong></td>
                 <td>${barber["city"]}</td>    
             </tr>    
-            <div id="slots${index}"></div>
+            <tr>
+                <td colspan="2" id="slots${index}"></td>
+            </tr>
         `
     });
 
@@ -60,10 +63,8 @@ const addRowAListener = (rowIndex)=>{
         .then(responseText=>{
             state.bookingSlots = [];
             state.bookingSlots = JSON.parse(responseText);
-            console.log(state.bookingSlots);
             row.innerHTML = "";
             let str = "";
-            console.log(state.bookingSlots);
             if(state.bookingSlots.length !== 0){
                 str = `<h1>Booking Slots with the Service ${state.barbers[rowIndex]["company_full_name"]}</h1>`;
                 str += "<ul class=\"list-group\">";
@@ -72,19 +73,23 @@ const addRowAListener = (rowIndex)=>{
                             <button type="button" class="btn btn-primary" onclick="book(state.bookingSlots[${slotIndex}])">Book this slot</button></li>`;
                 });
                 str +="</ul>";
+                row.innerHTML = str;
+            }else{
+                row.innerHTML = `<div class="alert alert-info" role="alert">
+                                    <h1>Oh, snap!</h1>
+                                    The provider ${state.barbers[rowIndex]["company_full_name"]} has no available slots at the moment. 
+                                </div>`;
             }
-            row.innerHTML = str;
+
         });
 
 };
 
 const book = (slot) => {
-    console.log(slot);
-
     const booking = {...slot};
 
     booking.booking_status = "PENDENT";
-    booking.review = "";
+    booking.review = "NO_REVIEW_ADDED";
 
     fetch("/booking_platform/controllers/bookASlot.php", {
         method: "POST",
@@ -107,3 +112,107 @@ inputElement.addEventListener("keypress",()=>{
    const value = inputElement.value;
    searchBarber(value);
 });
+
+
+const viewBookingsElement = document.querySelector("#view-your-bookings");
+
+
+
+viewBookingsElement.addEventListener("click", ()=>{
+
+    fetch("/booking_platform/controllers/getAllBookings.php")
+        .then(response=>response.text())
+        .then(text=>{
+            state.listOfBookings = JSON.parse(text);
+            state.colapeseBookingList = state.listOfBookings.map(booking=>false);
+            displayBookings();
+        });
+});
+
+const displayBookings = () => {
+    let content = "<h1>List of your bookings</h1>";
+    content += "<ul class=\"list-group\">";
+    if(state.listOfBookings){
+        state.listOfBookings.map((booking, bIndex)=>{
+            content += `<li class="list-group-item" onclick="addColapsedListAnEventListener(${bIndex})">
+                        
+                        <ul class="list-inline">
+                            <li class="list-inline-item"><string>${booking["time_stamp"]}</string></li>
+                            <li class="list-inline-item">${booking["company_full_name"]}</li>
+                            <li class="list-inline-item">${booking["first_line_address"]}</li>
+                            <li class="list-inline-item">${booking["second_line_address"]}</li>
+                            <li class="list-inline-item"><strong>${booking["city"]}</strong></li>
+                            <li class="list-inline-item"><strong>${booking["review"]}</strong></li>
+                        </ul>
+            
+                        </li>
+                        <li class="list-group-item">
+                            ${state.colapeseBookingList[bIndex]?showColapsedBooking(bIndex):""}
+                        </li>
+`;
+        // addColapsedListAnEventListener("bookingOptions"+bIndex, bIndex);
+        });
+    }
+    content += "</ul>";
+
+    document.querySelector("#table").innerHTML = content;
+};
+
+const addColapsedListAnEventListener = (bookingIndex) => {
+    const colapsedBookings = [...state.colapeseBookingList.map(flag=>false)];
+    colapsedBookings[bookingIndex] = true;
+    state.colapeseBookingList = [...colapsedBookings];
+    displayBookings();
+};
+
+const showColapsedBooking = (bookingIndex) => {
+    return `
+    <h3>booking Options</h3>
+    <table class="table">
+        <tr>            
+            <td>
+                <h4>REVIEW OPTION</h4>
+                <form>
+                     <div class="form-group">
+                        <select class="form-control">
+                            <option value="volvo">END_OF_THE_WORLD</option>
+                            <option value="saab">TERRIBLE</option>
+                            <option value="mercedes">BAD</option>
+                            <option value="audi">MEH</option>
+                            <option value="audi">OK</option>
+                            <option value="audi">GOOD</option>
+                            <option value="audi">VERY_GOOD</option>
+                            <option value="audi">SUPERB</option>
+                            <option value="audi">PERFECT</option>
+                        </select>
+                        <button type="button" class="btn btn-primary" >
+                            submit review
+                        </button>
+                    </div>
+                </form> 
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary" onclick="cancelBooking(${bookingIndex})">
+                    Cancel Appointment
+                </button>
+            </td>
+        </tr>
+    </table>
+    
+
+
+    `;
+};
+
+const cancelBooking = (bookingIndeex) => {
+    const bookintToBeCancelled = {...state.listOfBookings[bookingIndeex]};
+    console.log(bookintToBeCancelled);
+    fetch("/booking_platform/controllers/cancelBooking.php",{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify(bookintToBeCancelled)
+    }).then(response=>response.text())
+        .then(text=>console.log(text));
+};
