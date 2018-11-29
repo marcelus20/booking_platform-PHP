@@ -6,7 +6,7 @@
  */
 session_start();
 if($_SESSION){
-    header("location: "."http://localhost/booking_platform/views/public/dashboard.php");
+    header("location: "."http://localhost/booking_platform/views/public/dashboard-c.php");
 }
 ?>
 
