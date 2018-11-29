@@ -41,7 +41,7 @@ try{
             $_SESSION["email"] = $row["email"];
         }
         $_SESSION["id"] = $sessionModel->getUserId();
-        $_SESSION["usert_type"] = $sessionModel->getUsertype();
+        $_SESSION["user_type"] = $sessionModel->getUsertype();
 
         header("location: "."http://localhost/booking_platform/views/public/dashboard.php");
         exit();
