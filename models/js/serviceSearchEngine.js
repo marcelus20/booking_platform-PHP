@@ -1,4 +1,6 @@
-let state = {};
+let state = {
+    reviewShouldSubmit: false,
+};
 
 
 const inputElement = document.querySelector("#searchEngine");
@@ -117,9 +119,12 @@ inputElement.addEventListener("keypress",()=>{
 const viewBookingsElement = document.querySelector("#view-your-bookings");
 
 
-
 viewBookingsElement.addEventListener("click", ()=>{
 
+    retrieveBookings();
+});
+
+const retrieveBookings = () => {
     fetch("/booking_platform/controllers/getAllBookings.php")
         .then(response=>response.text())
         .then(text=>{
@@ -127,7 +132,7 @@ viewBookingsElement.addEventListener("click", ()=>{
             state.colapeseBookingList = state.listOfBookings.map(booking=>false);
             displayBookings();
         });
-});
+};
 
 const displayBookings = () => {
     let content = "<h1>List of your bookings</h1>";
@@ -153,19 +158,68 @@ const displayBookings = () => {
         // addColapsedListAnEventListener("bookingOptions"+bIndex, bIndex);
         });
     }
+    if(state.listOfBookings.length === 0){
+        content+="<div class=\"alert alert-info\" role=\"alert\"><h2>You have no bookings at the moment to display</h2></div>";
+    }
     content += "</ul>";
 
     document.querySelector("#table").innerHTML = content;
 };
 
 const addColapsedListAnEventListener = (bookingIndex) => {
+    const alertUpdateDiv = document.querySelector("#alertUpdate");
+    alertUpdateDiv.innerHTML = null;
+    alertUpdateDiv.setAttribute("class", "");
     const colapsedBookings = [...state.colapeseBookingList.map(flag=>false)];
     colapsedBookings[bookingIndex] = true;
     state.colapeseBookingList = [...colapsedBookings];
     displayBookings();
+    addselectElemetAListener();
+    addSubmitElementAListener(bookingIndex);
+
 };
 
+
+
+const addSubmitElementAListener = (bookingIndex) => {
+    const submitReviewElement = document.querySelector("#submit-review");
+    submitReviewElement.addEventListener("click", ()=>updateReview(bookingIndex));
+    return submitReviewElement;
+};
+
+const alertUpdate = () => {
+    const alertUpdateDiv = document.querySelector("#alertUpdate");
+    alertUpdateDiv.setAttribute("class", "alert alert-info");
+    alertUpdateDiv.setAttribute("role", "alert");
+    alertUpdateDiv.innerHTML = "<h1>review updated successfully!</h1>";
+};
+
+const updateReview = (bookingIndex) => {
+    const booking = {...state.listOfBookings[bookingIndex]};
+    booking.review = state.selectedReview;
+    booking[4] = state.selectedReview;
+
+    fetch("/booking_platform/controllers/updateReview.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify(booking)
+    }).then(response=>response.text())
+        .then(text=>{
+            retrieveBookings();
+            alertUpdate();
+        });
+
+};
+
+const addselectElemetAListener = () => {
+    const selectElement = document.querySelector("#reviewSelect");
+    state.selectedReview = selectElement.value;
+    selectElement.addEventListener("change", ()=>state.selectedReview = selectElement.value);
+};
 const showColapsedBooking = (bookingIndex) => {
+    const reviewOptions = ["END_OF_THE_WORLD", "TERRIBLE", "BAD", "MEH", "OK", "GOOD", "VERY_GOOD", "SUPERB", "PERFECT"];
     return `
     <h3>booking Options</h3>
     <table class="table">
@@ -174,25 +228,20 @@ const showColapsedBooking = (bookingIndex) => {
                 <h4>REVIEW OPTION</h4>
                 <form>
                      <div class="form-group">
-                        <select class="form-control">
-                            <option value="volvo">END_OF_THE_WORLD</option>
-                            <option value="saab">TERRIBLE</option>
-                            <option value="mercedes">BAD</option>
-                            <option value="audi">MEH</option>
-                            <option value="audi">OK</option>
-                            <option value="audi">GOOD</option>
-                            <option value="audi">VERY_GOOD</option>
-                            <option value="audi">SUPERB</option>
-                            <option value="audi">PERFECT</option>
+                        <select class="form-control" id="reviewSelect">
+                            ${
+                                reviewOptions.map(option=>`<option value=${option}>${option}</option>`)
+                                    .reduce((acc, next)=>acc+next)
+                            }
                         </select>
-                        <button type="button" class="btn btn-primary" >
+                        <button type="button" class="btn btn-secondary" id="submit-review">
                             submit review
                         </button>
                     </div>
                 </form> 
             </td>
             <td>
-                <button type="button" class="btn btn-primary" onclick="cancelBooking(${bookingIndex})">
+                <button type="button" class="btn btn btn-danger" onclick="cancelBooking(${bookingIndex})">
                     Cancel Appointment
                 </button>
             </td>
@@ -214,5 +263,12 @@ const cancelBooking = (bookingIndeex) => {
         },
         body: JSON.stringify(bookintToBeCancelled)
     }).then(response=>response.text())
-        .then(text=>console.log(text));
+        .then(text=>{
+            const alertUpdateDiv = document.querySelector("#alertUpdate");
+            alertUpdateDiv.setAttribute("class", "alert alert-info");
+            alertUpdateDiv.setAttribute("role", "alert");
+            alertUpdateDiv.innerHTML = "<h1>Booking Deleted Successfully</h1>";
+            retrieveBookings();
+            console.log(text)
+        });
 };
