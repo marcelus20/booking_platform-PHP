@@ -38,4 +38,4 @@
 
 
 
-    <script src="/booking_platform/models/js/serviceSearchEngine.js"></script>
+    <script src="/booking_platform/models/js/dashboardCustomerHandler.js"></script>
