@@ -34,7 +34,7 @@ loginForm.addEventListener("submit", (e)=>{
                 </div>
             `;
             }else{
-                window.location.replace("http://localhost/booking_platform/views/public/dashboard.php");
+                window.location.replace("http://localhost/booking_platform/views/public/dashboard-c.php");
             }
 
         }).catch(e=>{

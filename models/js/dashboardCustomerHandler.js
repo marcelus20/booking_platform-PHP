@@ -169,7 +169,6 @@ const clearAlertdiv= ()=>{
 };
 
 const showYourBookings = () => {
-    clearAlertdiv();
     retrieveBookings();
 };
 
