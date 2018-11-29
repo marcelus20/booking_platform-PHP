@@ -12,8 +12,8 @@ loginForm.addEventListener("submit", (e)=>{
 
     e.preventDefault();
 
-    const email = select("email");
-    const password = select("password");
+    const email = select("email").trim();
+    const password = select("password").trim();
 
     const loginForm = new LoginModel(email, password);
 

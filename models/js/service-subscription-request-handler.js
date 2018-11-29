@@ -1,15 +1,15 @@
 class ServiceModel {
 
     constructor(email, password, confirmPassword, phone, companyName, firstLineAddress, secondLineAddress, city, eirCode){
-        this.email = email;
-        this.password = password;
-        this.confirmPassword = confirmPassword;
-        this.phone = phone;
-        this.companyName = companyName;
-        this.firstLineAddress = firstLineAddress;
-        this.secondLineAddress = secondLineAddress;
-        this.city = city;
-        this.eirCode = eirCode;
+        this.email = email.trim();
+        this.password = password.trim();
+        this.confirmPassword = confirmPassword.trim();
+        this.phone = phone.trim();
+        this.companyName = companyName.trim();
+        this.firstLineAddress = firstLineAddress.trim();
+        this.secondLineAddress = secondLineAddress.trim();
+        this.city = city.trim();
+        this.eirCode = eirCode.trim();
     }
 }
 
@@ -58,8 +58,5 @@ formElement.addEventListener("submit", (e)=>{
         </div>
         `;
     }
-
-
-
 
 });

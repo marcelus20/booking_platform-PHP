@@ -4,12 +4,12 @@ const form = document.querySelector("#customer-subscription");
 
 class CustomerFormModel {
     constructor(email, password, confirmPass, phone, firstName, lastName) {
-        this.email = email;
-        this.password = password;
-        this.confirmPass = confirmPass;
-        this.phone = phone;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.email = email.trim();
+        this.password = password.trim();
+        this.confirmPass = confirmPass.trim();
+        this.phone = phone.trim();
+        this.firstName = firstName.trim();
+        this.lastName = lastName.trim();
     }
 
 }
