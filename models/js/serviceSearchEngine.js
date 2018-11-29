@@ -2,11 +2,27 @@ let state = {
     reviewShouldSubmit: false,
 };
 
-
 const inputElement = document.querySelector("#searchEngine");
+
+window.addEventListener("load", ()=>{
+    goToHome();
+});
+
+const goToHome = () => {
+    const mainDiv = document.querySelector("#table");
+    mainDiv.innerHTML = `
+ 
+ THIS IS HOME
+        
+      
+    `
+};
+
+document.querySelector("#home").addEventListener("click", ()=>goToHome());
 
 
 const searchBarber = (value) =>{
+    clearAlertdiv();
     const obj = {};
     obj.fullName = value;
 
@@ -21,8 +37,13 @@ const searchBarber = (value) =>{
        .then(response=>response.text())
        .then(responseText=>{
            state.barbers = JSON.parse(responseText);
+           generateBarberCollapseArray();
            fectchToHTML();
        });
+};
+
+const generateBarberCollapseArray = () => {
+    state.barbersCollapse = state.barbers.map(barber=>false);
 };
 
 const fectchToHTML = () => {
@@ -41,7 +62,7 @@ const fectchToHTML = () => {
                 <td>${barber["city"]}</td>    
             </tr>    
             <tr>
-                <td colspan="2" id="slots${index}"></td>
+                <td colspan="2" id="slots${index}">${state.barbersCollapse[index]?drawCollapsedBarber(index):""}</td>
             </tr>
         `
     });
@@ -52,8 +73,35 @@ const fectchToHTML = () => {
 
 };
 
+const negativateAllBarbersCollapse = () => {
+    const barbersCollapseList = state.barbersCollapse.map(flags=>false);
+    state.barbersCollapse = [...barbersCollapseList];
+};
+
+const drawCollapsedBarber = (rowIndex) => {
+    let str = "";
+    if(state.bookingSlots.length !== 0){
+        str = `<h1>Booking Slots with the Service ${state.barbers[rowIndex]["company_full_name"]}</h1>`;
+        str += "<ul class=\"list-group\">";
+        state.bookingSlots.map((slots, slotIndex)=>{
+            str += `<li class="list-group-item">${slots["timestamp"]}
+                            <button type="button" class="btn btn-primary" onclick="book(state.bookingSlots[${slotIndex}])">Book this slot</button></li>`;
+        });
+        str +="</ul>";
+        return str;
+    }else{
+        return `<div class="alert alert-info" role="alert">
+                                    <h1>Oh, snap!</h1>
+                                    The provider ${state.barbers[rowIndex]["company_full_name"]} has no available slots at the moment.
+                                </div>`;
+    }
+};
+
 const addRowAListener = (rowIndex)=>{
     const row = document.querySelector("#slots"+rowIndex);
+    negativateAllBarbersCollapse();
+    state.barbersCollapse[rowIndex] = true;
+    console.log(state.barbersCollapse);
 
     fetch("/booking_platform/controllers/searchBookingSlots.php", {
         method: "POST",
@@ -66,22 +114,7 @@ const addRowAListener = (rowIndex)=>{
             state.bookingSlots = [];
             state.bookingSlots = JSON.parse(responseText);
             row.innerHTML = "";
-            let str = "";
-            if(state.bookingSlots.length !== 0){
-                str = `<h1>Booking Slots with the Service ${state.barbers[rowIndex]["company_full_name"]}</h1>`;
-                str += "<ul class=\"list-group\">";
-                state.bookingSlots.map((slots, slotIndex)=>{
-                    str += `<li class="list-group-item">${slots["timestamp"]}
-                            <button type="button" class="btn btn-primary" onclick="book(state.bookingSlots[${slotIndex}])">Book this slot</button></li>`;
-                });
-                str +="</ul>";
-                row.innerHTML = str;
-            }else{
-                row.innerHTML = `<div class="alert alert-info" role="alert">
-                                    <h1>Oh, snap!</h1>
-                                    The provider ${state.barbers[rowIndex]["company_full_name"]} has no available slots at the moment. 
-                                </div>`;
-            }
+            fectchToHTML();
 
         });
 
@@ -93,6 +126,8 @@ const book = (slot) => {
     booking.booking_status = "PENDENT";
     booking.review = "NO_REVIEW_ADDED";
 
+
+
     fetch("/booking_platform/controllers/bookASlot.php", {
         method: "POST",
         headers: {
@@ -100,9 +135,42 @@ const book = (slot) => {
         },
         body: JSON.stringify(booking)
     }).then(response=>response.text())
-        .then(text=>console.log(text));
+        .then(text=>{
+            console.log(text);
+            clearDashboard();
+            alertUpdate(`<h1>You have just booked with ${JSON.parse(text)[0]["company_full_name"]}</h1>`, "success")
+            showYourBookings();
+        });
 
-    clearDashboard();
+
+};
+
+const alertUpdate = (msg, type) => {
+    let alertType = "";
+    if(type === "info"){
+        alertType = "alert alert-info"
+    }else if (type === "danger"){
+        alertType = "alert alert-danger";
+    }else if (type === "warning"){
+        alertType = "alert alert-warning";
+    }else if (type == "success"){
+        alertType = "alert alert-success";
+    }
+    const alertUpdateElement = document.querySelector("#alertUpdate");
+    alertUpdateElement.innerHTML = msg;
+    alertUpdateElement.setAttribute("class", alertType);
+    alertUpdateElement.setAttribute("role", "alert");
+};
+
+const clearAlertdiv= ()=>{
+    const alertUpdateElement = document.querySelector("#alertUpdate");
+    alertUpdateElement.innerHTML = null;
+    alertUpdateElement.setAttribute("class", "");
+};
+
+const showYourBookings = () => {
+    clearAlertdiv();
+    retrieveBookings();
 };
 
 const clearDashboard = () => {
@@ -167,9 +235,7 @@ const displayBookings = () => {
 };
 
 const addColapsedListAnEventListener = (bookingIndex) => {
-    const alertUpdateDiv = document.querySelector("#alertUpdate");
-    alertUpdateDiv.innerHTML = null;
-    alertUpdateDiv.setAttribute("class", "");
+    clearAlertdiv();
     const colapsedBookings = [...state.colapeseBookingList.map(flag=>false)];
     colapsedBookings[bookingIndex] = true;
     state.colapeseBookingList = [...colapsedBookings];
@@ -187,13 +253,6 @@ const addSubmitElementAListener = (bookingIndex) => {
     return submitReviewElement;
 };
 
-const alertUpdate = () => {
-    const alertUpdateDiv = document.querySelector("#alertUpdate");
-    alertUpdateDiv.setAttribute("class", "alert alert-info");
-    alertUpdateDiv.setAttribute("role", "alert");
-    alertUpdateDiv.innerHTML = "<h1>review updated successfully!</h1>";
-};
-
 const updateReview = (bookingIndex) => {
     const booking = {...state.listOfBookings[bookingIndex]};
     booking.review = state.selectedReview;
@@ -208,7 +267,7 @@ const updateReview = (bookingIndex) => {
     }).then(response=>response.text())
         .then(text=>{
             retrieveBookings();
-            alertUpdate();
+            alertUpdate("<h1>review update successfully!</h1>", "info");
         });
 
 };
@@ -264,10 +323,7 @@ const cancelBooking = (bookingIndeex) => {
         body: JSON.stringify(bookintToBeCancelled)
     }).then(response=>response.text())
         .then(text=>{
-            const alertUpdateDiv = document.querySelector("#alertUpdate");
-            alertUpdateDiv.setAttribute("class", "alert alert-info");
-            alertUpdateDiv.setAttribute("role", "alert");
-            alertUpdateDiv.innerHTML = "<h1>Booking Deleted Successfully</h1>";
+            alertUpdate("<h1>Booking deleted successfully!</h1>", "info");
             retrieveBookings();
             console.log(text)
         });

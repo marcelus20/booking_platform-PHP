@@ -33,7 +33,12 @@ try{
 
     $stmt2->execute();
 
-    echo "SUCCESS";
+    $stmt3 = $conn->prepare("SELECT * FROM service_provider WHERE s_id = :s_id");
+    $stmt3->bindValue(":s_id", $data["s_id"]);
+
+    $stmt3->execute();
+
+    echo json_encode($stmt3->fetchAll());
 
 }catch (PDOException $e){
     echo false;

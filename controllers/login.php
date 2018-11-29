@@ -25,7 +25,7 @@ $loginModel = new LoginModel($data["email"], passwordHasher($data["password"]));
 try{
     $conn = new PDO($dsn, $username, $password, $options);
 
-    $st = $conn->prepare("SELECT id, user_type FROM users WHERE email = :email AND password = :password");
+    $st = $conn->prepare("SELECT * FROM users WHERE email = :email AND password = :password");
 
     $st->bindValue(":email", $loginModel->getEmail(), PDO::PARAM_STR);
     $st->bindValue(":password", $loginModel->getPassword(), PDO::PARAM_STR);
@@ -38,9 +38,11 @@ try{
 
             $sessionModel->setUserId($row["id"]);
             $sessionModel->setUsertype($row["user_type"]);
+            $_SESSION["email"] = $row["email"];
         }
         $_SESSION["id"] = $sessionModel->getUserId();
         $_SESSION["usert_type"] = $sessionModel->getUsertype();
+
         header("location: "."http://localhost/booking_platform/views/public/dashboard.php");
         exit();
     }else{
