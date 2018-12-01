@@ -8,8 +8,10 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <script src="/booking_platform/views/public/js/common.js"></script>
-    <script src="/booking_platform/views/public/js/dashboardServiceHandler.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/booking_platform/views/public/js/serviceHome.js"></script>
+    <script src="/booking_platform/views/public/js/slots.js"></script>
+    <script src="/booking_platform/views/public/js/viewCustomers.js"></script>
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
 
 </head>
 <body>
