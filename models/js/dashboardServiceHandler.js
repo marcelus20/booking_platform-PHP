@@ -157,6 +157,7 @@ const collapseCustomer = (index) => {
                             <select class="form-control" id="change-status" ${
         booking["booking_status"] === "COMPLETE" ? "disabled = \"true\"":""
         } onchange="updateBookingStatus(${index}, ${i})">
+                                <option value="" selected disabled hidden>Select here an option</option>
                                 ${bookingStatusArray.map(status=>`<option>${status}</option>`)
                                     .reduce((acc, next)=>acc+next)}
                             </select>

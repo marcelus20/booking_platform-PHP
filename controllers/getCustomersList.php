@@ -11,7 +11,7 @@ include "../models/private/pdo/dsn.php";
 try{
 
     $conn = new PDO($dsn, $username, $password, $options);
-    $stmt = $conn->prepare("SELECT DISTINCT c.c_id, c.first_name, c.last_name  FROM customers c JOIN booking b ON c.c_id = b.c_id WHERE b.s_id = :s_id;");
+    $stmt = $conn->prepare("SELECT DISTINCT c.c_id, c.first_name, c.last_name  FROM customers c JOIN booking b ON c.c_id = b.c_id WHERE b.s_id = :s_id ORDER BY time_stamp DESC;");
     $stmt->bindValue(":s_id", $_SESSION["id"]);
     $stmt->execute();
 

@@ -215,6 +215,7 @@ const displayBookings = () => {
                             <li class="list-inline-item">${booking["second_line_address"]}</li>
                             <li class="list-inline-item"><strong>${booking["city"]}</strong></li>
                             <li class="list-inline-item"><strong>${booking["review"]}</strong></li>
+                            <li class="list-inline-item"><h3>${booking["booking_status"]}</h3></strong></li>
                         </ul>
             
                         </li>
