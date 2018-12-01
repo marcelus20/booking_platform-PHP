@@ -13,7 +13,7 @@ include_once "../models/SessionModel.class.php";
 
 class MainController extends AbstractController {
 
-    private static $_mainController;
+    private static $_mainController = null;
 
 
     /**
