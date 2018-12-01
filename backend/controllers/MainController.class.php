@@ -15,6 +15,7 @@ class MainController extends AbstractController {
 
     private static $_mainController;
 
+
     /**
      * MainController constructor
      */
@@ -58,6 +59,14 @@ class MainController extends AbstractController {
         }catch (Exception $e){
             return false;
         }
+    }
+
+    public function checkLogin(){
+        return isset($_SESSION["userSession"]);
+    }
+
+    public function getUserData(){
+        return unserialize($_SESSION["userSession"]);
     }
 
 
