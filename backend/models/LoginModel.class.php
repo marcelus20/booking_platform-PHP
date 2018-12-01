@@ -10,7 +10,7 @@ class LoginModel{
     private $email, $password;
 
     /**
-     * LoginModel constructor.
+     * LoginModel.class constructor.
      * @param $email
      * @param $password
      */
