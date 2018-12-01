@@ -19,7 +19,6 @@ window.addEventListener("load", ()=>{
             body: JSON.stringify(loginForm)
         }).then(response=>response.text())
             .then(responseText=>{
-                console.log(responseText);
                 if(parseInt(responseText ) === 1){
                     window.location.href = "http://localhost/booking_platform/dashboard.html";
                 }else{
@@ -28,11 +27,10 @@ window.addEventListener("load", ()=>{
                     setTimeout((()=> errorDiv.style.visibility = "hidden"), 2000);
                 }
             }).catch(e=>{
-                console.log(e);
                 const errorDiv = document.querySelector("#errorCred");
                 errorDiv.style.visibility = "visible";
                 setTimeout((()=> errorDiv.style.visibility = "hidden"), 2000);
-        })
+            })
 
     });
 });

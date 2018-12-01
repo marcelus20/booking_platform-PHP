@@ -13,6 +13,8 @@ include_once "../models/SessionModel.class.php";
 
 class MainController extends AbstractController {
 
+    private static $_mainController;
+
     /**
      * MainController constructor
      */
@@ -20,6 +22,12 @@ class MainController extends AbstractController {
         parent::__construct();
     }
 
+    public static function mainController(){
+        if(!isset(self::$_mainController)){
+            self::$_mainController = new MainController();
+        }
+        return self::$_mainController;
+    }
 
     public function login(LoginModel $loginModel){
         return $this->connectPDO(function($conn) use($loginModel){

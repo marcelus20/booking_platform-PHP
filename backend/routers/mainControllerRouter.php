@@ -5,7 +5,7 @@ include_once "../controllers/MainController.class.php";
 session_start();
 
 try{
-    $mainController = new MainController();
+    $mainController = MainController::mainController();
     $executionType = $_GET["executionType"];
     switch ($executionType){
         case "login": {
