@@ -1,30 +1,5 @@
 
-
-
 state = {};
-
-const alertUpdate = (msg, type) => {
-    let alertType = "";
-    if(type === "info"){
-        alertType = "alert alert-info"
-    }else if (type === "danger"){
-        alertType = "alert alert-danger";
-    }else if (type === "warning"){
-        alertType = "alert alert-warning";
-    }else if (type === "success"){
-        alertType = "alert alert-success";
-    }
-    const alertUpdateElement = document.querySelector("#alertUpdate");
-    alertUpdateElement.innerHTML = msg;
-    alertUpdateElement.setAttribute("class", alertType);
-    alertUpdateElement.setAttribute("role", "alert");
-};
-
-const clearAlertdiv= ()=>{
-    const alertUpdateElement = document.querySelector("#alertUpdate");
-    alertUpdateElement.innerHTML = null;
-    alertUpdateElement.setAttribute("class", "");
-};
 
 
 //REDIRECTING TO HOME PAGE WHEN SERVICE DASHBOARD LOADS
@@ -50,10 +25,6 @@ const goToViewCustomerListPage = (mainDiv)=>{
     });
 };
 
-const goToHome = () => {
-    const mainDiv = document.querySelector("#table");
-    mainDiv.innerHTML = "THIS IS HOME";
-};
 
 const addHomeMenuAListener = () => {
     const homeMenuHeader = document.querySelector("#home");
@@ -72,26 +43,17 @@ const addSlotsInsertionMenuAListener = (mainDiv) => {
 
 const goToSlotsInsertionPage = (mainDiv) => {
     // mainDiv.innerHTML = "THIS IS SLOTS INSERTION PAGE!"
-    drawDatePicker();
+    const date = new Date();
+    state.slots = {"selectedDate" : date};
+    drawDatePicker(date);
 };
 
-const add0ToTheLeft = (dateIndex) => {
-    return dateIndex+"".length===1?"0"+dateIndex:dateIndex;
-};
 
-const formatDateWithPaddedZero = (date) => {
-  return  date.getFullYear()+ "-"+ add0ToTheLeft(date.getMonth()+1)+"-"+add0ToTheLeft(date.getDate());
-};
-
-const drawDatePicker = () => {
-    const today = new Date();
-    const todayStringDate = formatDateWithPaddedZero(today);
-    state.slots = {};
-    state.slots.selectedDate = today;
+const drawDatePicker = (date) => {
+    const todayStringDate = formatDateWithPaddedZero(date);
 
     console.log(todayStringDate);
     const str = `<input type="date" min="${"2018-12-01"}" class="form-control" id = "datepicker">`;
-
     printContentToMainDiv(str);
     document.querySelector("#datepicker").addEventListener("change", toggleSlotsPanel);
 };
