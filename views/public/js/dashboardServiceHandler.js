@@ -1,6 +1,4 @@
-
 state = {};
-
 
 //REDIRECTING TO HOME PAGE WHEN SERVICE DASHBOARD LOADS
 window.addEventListener("load", ()=>{

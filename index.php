@@ -39,6 +39,6 @@ if($_SESSION){
 </div>
 
 
-<script type="text/javascript" src="models/js/login.js"></script>
+<script type="text/javascript" src="views/public/js/login.js"></script>
 
 <?php include("views/public/templates/footer.php") ?>

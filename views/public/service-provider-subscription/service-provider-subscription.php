@@ -77,6 +77,6 @@ include "../templates/header.php";
     </div>
 </div>
 
-    <script src="../../../models/js/service-subscription-request-handler.js"></script>
+    <script src="../js/service-subscription-request-handler.js"></script>
 
 <?php include "../templates/footer.php" ?>

@@ -63,7 +63,7 @@ include "../templates/header.php";
 </div>
 
 
-<script src="../../../models/js/customer-subscription-request-handler.js"></script>
+<script src="../js/customer-subscription-request-handler.js"></script>
 <?php
 include "../templates/footer.php";
 ?>
