@@ -1,6 +1,4 @@
 window.addEventListener("load", ()=>{
-    const select = (strId) => document.querySelector("#"+strId).value;
-
     const checkLogin = () =>
         fetch("/booking_platform/backend/routers/mainControllerRouter.php?executionType=checkLogin")
             .then(response=>response.text())
@@ -9,7 +7,7 @@ window.addEventListener("load", ()=>{
                     window.location.href = "http://localhost/booking_platform/dashboard.html";
                 }
 
-                return document.querySelector("#loginform");
+                return select("loginform");
             });
 
 
@@ -17,8 +15,8 @@ window.addEventListener("load", ()=>{
 
         e.preventDefault();
 
-        const email = select("email").trim();
-        const password = select("password").trim();
+        const email = select("email").value.trim();
+        const password = select("password").value.trim();
 
         const loginForm = new LoginModel(email, password);
 
@@ -33,12 +31,12 @@ window.addEventListener("load", ()=>{
                 if(parseInt(responseText ) === 1){
                     window.location.href = "http://localhost/booking_platform/dashboard.html";
                 }else{
-                    const errorDiv = document.querySelector("#errorCred");
+                    const errorDiv = select("errorCred");
                     errorDiv.style.visibility = "visible";
                     setTimeout((()=> errorDiv.style.visibility = "hidden"), 2000);
                 }
             }).catch(e=>{
-                const errorDiv = document.querySelector("#errorCred");
+                const errorDiv = select("errorCred");
                 errorDiv.style.visibility = "visible";
                 setTimeout((()=> errorDiv.style.visibility = "hidden"), 2000);
             })

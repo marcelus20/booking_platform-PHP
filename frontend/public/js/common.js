@@ -33,3 +33,4 @@ const formatDateWithPaddedZero = (date) => {
     return  date.getFullYear()+ "-"+ add0ToTheLeft(date.getMonth()+1)+"-"+add0ToTheLeft(date.getDate());
 };
 
+const select = (strId) => document.querySelector("#"+strId);
