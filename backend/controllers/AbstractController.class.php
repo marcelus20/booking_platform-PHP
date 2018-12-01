@@ -33,6 +33,8 @@ abstract class AbstractController{
     }
 
     protected function disconnectPDO(){
-        self::$pdo->close();
+        if (isset(self::$pdo)){
+            self::$pdo->close();
+        }
     }
 }
