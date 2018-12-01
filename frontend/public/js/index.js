@@ -1,8 +1,19 @@
 window.addEventListener("load", ()=>{
     const select = (strId) => document.querySelector("#"+strId).value;
-    const loginForm = document.querySelector("#loginform");
 
-    loginForm.addEventListener("submit", (e)=>{
+    const checkLogin = () =>
+        fetch("/booking_platform/backend/routers/mainControllerRouter.php?executionType=checkLogin")
+            .then(response=>response.text())
+            .then(text=>{
+                if(parseInt(text) === 1){
+                    window.location.href = "http://localhost/booking_platform/dashboard.html";
+                }
+
+                return document.querySelector("#loginform");
+            });
+
+
+    const addEventToForm = (loginForm) => loginForm.addEventListener("submit", (e)=>{
 
         e.preventDefault();
 
@@ -33,4 +44,13 @@ window.addEventListener("load", ()=>{
             })
 
     });
+
+    const main = () => {
+        checkLogin().then(addEventToForm);
+    };
+
+
+    main();
+
+
 });
