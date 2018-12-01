@@ -1,3 +1,6 @@
+
+
+
 state = {};
 
 const alertUpdate = (msg, type) => {
@@ -68,10 +71,45 @@ const addSlotsInsertionMenuAListener = (mainDiv) => {
 };
 
 const goToSlotsInsertionPage = (mainDiv) => {
-    mainDiv.innerHTML = "THIS IS SLOTS INSERTION PAGE!"
+    // mainDiv.innerHTML = "THIS IS SLOTS INSERTION PAGE!"
+    drawDatePicker();
 };
 
+const add0ToTheLeft = (dateIndex) => {
+    return dateIndex+"".length===1?"0"+dateIndex:dateIndex;
+};
 
+const formatDateWithPaddedZero = (date) => {
+  return  date.getFullYear()+ "-"+ add0ToTheLeft(date.getMonth()+1)+"-"+add0ToTheLeft(date.getDate());
+};
+
+const drawDatePicker = () => {
+    const today = new Date();
+    const todayStringDate = formatDateWithPaddedZero(today);
+    state.slots = {};
+    state.slots.selectedDate = today;
+
+    console.log(todayStringDate);
+    const str = `<input type="date" min="${"2018-12-01"}" class="form-control" id = "datepicker">`;
+
+    printContentToMainDiv(str);
+    document.querySelector("#datepicker").addEventListener("change", toggleSlotsPanel);
+};
+
+const toggleSlotsPanel = () => {
+
+    const str = `
+        <div class="box">
+            <div class="col-sm">
+              <h3 class="display-3">Slots to Make available</h3>
+            </div>
+            <div class="col-sm">
+              <h3>Slots made available</h3>
+            </div>
+        </div>
+    `;
+    appendContentToMainDiv(str);
+};
 
 const getListOfCustomers = () => {
 
@@ -209,6 +247,10 @@ const cancelBooking = (customerIndex, booking_index) => {
 
 const printContentToMainDiv = (content) => {
     document.querySelector("#table").innerHTML = content;
+};
+
+const appendContentToMainDiv = (content) => {
+    document.querySelector("#table").innerHTML +=content;
 };
 
 
