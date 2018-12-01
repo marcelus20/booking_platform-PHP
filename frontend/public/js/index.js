@@ -17,7 +17,7 @@ loginForm.addEventListener("submit", (e)=>{
 
     const loginForm = new LoginModel(email, password);
 
-    fetch("/booking_platform/controllers/login.php", {
+        fetch("/booking_platform/backend/controllers/login.php", {
         method: "POST",
         headers: {
             "Content-Type": "application/json; charset=utf-8"
@@ -25,26 +25,17 @@ loginForm.addEventListener("submit", (e)=>{
         body: JSON.stringify(loginForm)
     }).then(response=>response.text())
         .then(responseText=>{
-            console.log(responseText);
-            if(responseText.includes("again")){
-                const errorDiv = document.querySelector("#errorAlert");
-                errorDiv.innerHTML = `
-                <div class="alert alert-warning" role="alert">
-                    ${responseText}
-                </div>
-            `;
+            if(parseInt(responseText ) === 1){
+                window.location.href = "http://localhost/booking_platform/dashboard.html";
             }else{
-                window.location.replace("http://localhost/booking_platform/views/public/dashboard-c.php");
+                const errorDiv = document.querySelector("#errorCred");
+                errorDiv.style.visibility = "visible";
+                setTimeout((()=> errorDiv.style.visibility = "hidden"), 2000);
             }
-
         }).catch(e=>{
-            const errorDiv = document.querySelector("#errorAlert");
-            errorDiv.innerHTML = `
-                <div class="alert alert-danger" role="alert">
-                    something went wrong ${e};
-                </div>
-            `;
+            const errorDiv = document.querySelector("#errorCred");
+            errorDiv.style.visibility = "visible";
+            setTimeout((()=> errorDiv.style.visibility = "hidden"), 2000);
     })
-
 
 });

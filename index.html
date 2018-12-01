@@ -1,0 +1,62 @@
+<html>
+<head>
+    <title>Booking Platform</title>
+    <meta charset="utf8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="http://localhost/booking_platform">Booking Platform - Felipe Mantovani 2017192</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="http://localhost/booking_platform">Home</a></li>
+                <li><a href="http://localhost/booking_platform/views/public/customer-subscription/customer-subscription.php">Subscribe as a Customer</a></li>
+                <li><a href="http://localhost/booking_platform/views/public/service-provider-subscription/service-provider-subscription.php">Sign up as a Service Provider</a></li>
+            </ul>
+            <!--form class="navbar-form navbar-left" action="">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form-->
+        </div>
+    </nav>
+    <link rel="stylesheet" href="frontend/public/css/index.css">
+    <h1 class="title">Welcome to the Barbers/Hairdresser Booking Platform System</h1>
+    <div class="formclass" id="loginform">
+        <div class="alert alert-danger" role="alert" id="errorCred">
+            A user with these credentials does not exist or credentials are not correct!
+        </div>
+        <div class="card">
+            <h1 class="card-header">Log in</h1>
+            <form>
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" name="email-input" aria-describedby="emailHelp" placeholder="Enter email">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" name="password-input" id="password" placeholder="Password">
+                </div>
+
+                <div id="errorAlert"></div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+    <script type="text/javascript" src="frontend/public/js/index.js"></script>
+    </body>
+</html>
