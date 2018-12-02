@@ -48,6 +48,15 @@ function selectExecution($executionType, CustomerController $customerController)
                 new BookingSlot($data["timestamp"], $data["s_id"], false, null), $c_id
             );
         }
+        case "updateReview" : {
+            $c_id = unserialize($_SESSION["userSession"])->getUserId();
+            $data = json_decode(file_get_contents('php://input'), true);
+            return $customerController->updateReview(
+                new BookingSlot($data["timestamp"], $data["s_id"], false,
+                    new Booking($data["booking"]["booking_status"],$data["booking"]["review"])
+                ), $c_id
+            );
+        }
     }
 }
 

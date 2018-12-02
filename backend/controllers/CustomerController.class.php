@@ -173,6 +173,24 @@ ON l.s_id = s.s_id WHERE s.company_full_name LIKE :fullName;");
         });
     }
 
+    public function updateReview(BookingSlot $bookingSlot, $c_id){
+        return $this->connectPDO(function($conn) use($bookingSlot, $c_id){
+
+            try{
+                $stmt = $conn->prepare("UPDATE booking SET review = :review WHERE time_stamp = :time_stamp AND s_id = :s_id AND c_id = :c_id ;");
+                $stmt->bindValue(":review", $bookingSlot->getBooking()->getReview());
+                $stmt->bindValue(":time_stamp", $bookingSlot->getTimestamp());
+                $stmt->bindValue(":s_id", $bookingSlot->getSId());
+                $stmt->bindValue(":c_id", $c_id);
+                $stmt->execute();
+                return true;
+            }catch (PDOException $e){
+                return false;
+            }
+
+
+        });
+    }
 
 
 }
