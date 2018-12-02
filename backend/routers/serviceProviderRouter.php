@@ -28,6 +28,12 @@ function selectExecution($executionType, ServiceProviderController $serviceProvi
             return $serviceProviderController->cancelBooking(
                 new BookingSlot($data["timestamp"], $s_id, false, null), $data["c_id"]);
         }
+        case "updateBooking": {
+            $s_id = unserialize($_SESSION["userSession"])->getUserId();
+            $data = json_decode(file_get_contents('php://input'), true);
+//            var_dump($data);
+            return $serviceProviderController->updateBooking($data["timestamp"], $s_id, $data["c_id"], $data["booking_status"]);
+        }
     }
 }
 

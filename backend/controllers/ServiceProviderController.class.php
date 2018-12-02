@@ -81,5 +81,21 @@ class ServiceProviderController extends AbstractController {
         });
     }
 
+    public function updateBooking($timestamp, $s_id, $c_id, $bookingStatus){
+        return $this->connectPDO(function($conn) use($timestamp, $s_id, $c_id, $bookingStatus){
+            try{
+                $stmt = $conn->prepare("UPDATE booking SET booking_status = :status WHERE time_stamp = :time_stamp AND s_id = :s_id AND c_id = :c_id ;");
+                $stmt->bindValue(":status", $bookingStatus);
+                $stmt->bindValue(":time_stamp", $timestamp);
+                $stmt->bindValue(":s_id", $s_id);
+                $stmt->bindValue(":c_id", $c_id);
+                $stmt->execute();
+                return true;
+            }catch (PDOException $e){
+                return false;
+            }
+        });
+    }
+
 
 }

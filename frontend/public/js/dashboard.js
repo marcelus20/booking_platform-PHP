@@ -2,6 +2,7 @@
 window.addEventListener("load", ()=>{
 
     const customerController = () => CustomerController.customerController();
+    const serviceProviderController = () => ServiceProviderController.serviceProviderController();
 
     const checkLogin = () =>
         fetch("/booking_platform/backend/routers/mainControllerRouter.php?executionType=checkLogin")
@@ -57,9 +58,17 @@ window.addEventListener("load", ()=>{
     };
 
     const serviceViewRendering = (sessionModel) => {
-        select("insert-slots").classList.remove("invisible");
-        select("view-customers-list").classList.remove("invisible");
-        console.log(sessionModel);
+        setAnElementClassToVisible("provider_area");
+        const insertSlotsTab = select("insert-slots");
+        insertSlotsTab.classList.remove("invisible");
+        const viewCustomerListTab = select("view-customers-list");
+        viewCustomerListTab.classList.remove("invisible")
+
+        viewCustomerListTab.addEventListener("click", ()=>{
+            serviceProviderController().goToCustomerListPage();
+        });
+
+
         return sessionModel;
     };
 
