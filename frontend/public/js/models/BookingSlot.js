@@ -1,4 +1,4 @@
-class BookingSlots {
+class BookingSlot {
     constructor(timestamp, s_id, availability, booking = null) {
         this.timestamp = timestamp;
         this.s_id = s_id;
@@ -7,5 +7,5 @@ class BookingSlots {
     }
 }
 
-const bookingSlots = ({timestamp, s_id, availability, booking}) =>
-    new BookingSlots(timestamp, s_id, availability, booking);
+const bookingSlot = ({timestamp, s_id, availability, booking}) =>
+    new BookingSlot(timestamp, s_id, availability, booking);

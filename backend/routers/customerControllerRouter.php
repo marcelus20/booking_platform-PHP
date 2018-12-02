@@ -22,9 +22,9 @@ function selectExecution($executionType, CustomerController $customerController)
             return json_encode($customerController->searchBarbers(new SearchBarberModel($data["fullName"])));
         }
         case "searchBookingSlots":{
-            $id = file_get_contents('php://input');
+            $id = json_decode(file_get_contents('php://input'), true);
             header('Content-Type: application/json');
-            return json_encode($customerController->searchBookingSlots($id));
+            return json_encode($customerController->searchBookingSlots($id["s_id"]));
         }
     }
 }
