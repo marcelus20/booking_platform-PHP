@@ -6,65 +6,94 @@
  * Time: 21:40
  */
 
+include_once "Location.class.php";
+
 class ServiceProvider implements JsonSerializable {
 
     private $s_id;
     private $company_full_name;
     private $approved_status;
+    private $location;
 
     /**
      * ServiceProvider constructor.
      * @param $s_id
      * @param $company_full_name
      * @param $approved_status
+     * @param $location
      */
-    public function __construct($s_id, $company_full_name, $approved_status){
+    public function __construct($s_id, $company_full_name, $approved_status, Location $location){
         $this->s_id = $s_id;
         $this->company_full_name = $company_full_name;
         $this->approved_status = $approved_status;
+        $this->location = $location;
     }
 
     /**
      * @return mixed
      */
-    public function getSId(){
+    public function getSId()
+    {
         return $this->s_id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCompanyFullName(){
-        return $this->company_full_name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getApprovedStatus(){
-        return $this->approved_status;
     }
 
     /**
      * @param mixed $s_id
      */
-    public function setSId($s_id){
+    public function setSId($s_id)
+    {
         $this->s_id = $s_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompanyFullName()
+    {
+        return $this->company_full_name;
     }
 
     /**
      * @param mixed $company_full_name
      */
-    public function setCompanyFullName($company_full_name){
+    public function setCompanyFullName($company_full_name)
+    {
         $this->company_full_name = $company_full_name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getApprovedStatus()
+    {
+        return $this->approved_status;
     }
 
     /**
      * @param mixed $approved_status
      */
-    public function setApprovedStatus($approved_status){
+    public function setApprovedStatus($approved_status)
+    {
         $this->approved_status = $approved_status;
     }
+
+    /**
+     * @return Location
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param Location $location
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+    }
+
+
 
 
     /**

@@ -30,26 +30,36 @@ class CustomerController extends AbstractController {
 
 
     public function searchBarbers(SearchBarberModel $searchBarberModel){
-        return $this->connectPDO(function($conn) use($searchBarberModel){
-            $st = $conn->prepare("SELECT * FROM service_provider s JOIN location l 
+        if (!isset($_SESSION["userSession"])){
+            return false;
+        }else{
+            return $this->connectPDO(function($conn) use($searchBarberModel){
+                $st = $conn->prepare("SELECT * FROM service_provider s JOIN location l 
 ON l.s_id = s.s_id WHERE s.company_full_name LIKE :fullName;");
 
-            $st->bindValue(":fullName", "%".$searchBarberModel->getFullName()."%", PDO::PARAM_STR);
-            $st->execute();
+                $st->bindValue(":fullName", "%".$searchBarberModel->getFullName()."%", PDO::PARAM_STR);
+                $st->execute();
 
-            if($st->rowCount() > 0){
-                $serviceProviders = [];
-                foreach ($st->fetchAll() as $row) {
-                    $serviceProvider = new ServiceProvider(
-                        $row["s_id"], $row["company_full_name"], $row["approved_status"]
-                    );
-                    array_push($serviceProviders, $serviceProvider);
+                if($st->rowCount() > 0){
+                    $serviceProviders = [];
+                    foreach ($st->fetchAll() as $row) {
+                        $location = new Location(
+                            $row["s_id"], $row["eir_code"], $row["second_line_address"],
+                            $row["first_line_address"], $row["city"]
+                        );
+                        $serviceProvider = new ServiceProvider(
+                            $row["s_id"], $row["company_full_name"], $row["approved_status"], $location
+                        );
+
+                        array_push($serviceProviders, $serviceProvider);
+                    }
+                    return $serviceProviders;
+                }else{
+                    return [];
                 }
-                return $serviceProviders;
-            }else{
-                return [];
-            }
-        });
+            });
+        }
+
     }
 
 }
