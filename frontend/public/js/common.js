@@ -32,8 +32,8 @@ const goToHome = () => {
     mainDiv.innerHTML = "THIS IS HOME";
 };
 
-const add0ToTheLeft = (dateIndex) => {
-    return dateIndex+"".length===1?"0"+dateIndex:dateIndex;
+const add0ToTheLeft = (dateIndex) =>{
+    return String(dateIndex).length===1?"0"+dateIndex:dateIndex;
 };
 
 const formatDateWithPaddedZero = (date) => {
@@ -82,4 +82,8 @@ const showColapsedBooking = (barberId) => {
     `;
 };
 
+const confDatePicker = ()=> {
+    // console.log(formatDateWithPaddedZero(new Date()));
+    select("datePicker").setAttribute("min", formatDateWithPaddedZero(new Date()))
+} ;
 
