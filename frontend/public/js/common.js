@@ -44,6 +44,10 @@ const select = (strId) => document.querySelector("#"+strId);
 
 const setAnElementClassToInvisible = (id) => select(id).classList.add("invisible");
 
+const setAnElementToVisible = (element)=> element.classList.remove("invisible");
+
+const setAnElementToInvisible = (element)=> element.classList.add("invisible");
+
 const setAnElementClassToVisible = (id) => select(id).classList.remove("invisible");
 
 const showColapsedBooking = (barberId) => {
