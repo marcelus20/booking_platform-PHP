@@ -6,4 +6,4 @@ class Customer {
     }
 }
 
-const customer = ({c_id, first_name, last_name}) => new CustomerController();
+const customer = ({c_id, first_name, last_name}) => new Customer(c_id, first_name, last_name);
