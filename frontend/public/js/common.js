@@ -56,13 +56,13 @@ const showColapsedBooking = (barberId) => {
                 <h4>REVIEW OPTION</h4>
                 <form>
                      <div class="form-group">
-                        <select class="form-control" id="reviewSelect">
+                        <select class="form-control" id="reviewSelect"><option value="">Choose an option</option>
                             ${
         reviewOptions.map(option=>`<option value=${option}>${option}</option>`)
             .reduce((acc, next)=>acc+next)
         }
                         </select>
-                        <button type="button" class="btn btn-secondary" id="submit-review">
+                        <button type="button" class="btn btn-secondary" id="submit-review" onclick="updateReview(${barberId})">
                             submit review
                         </button>
                     </div>
