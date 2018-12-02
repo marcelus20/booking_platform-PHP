@@ -11,6 +11,7 @@ include_once "../models/entityRepresentation/ServiceProvider.class.php";
 include_once "AbstractController.class.php";
 include_once "../models/entityRepresentation/BookingSlot.class.php";
 include_once "../models/SessionModel.class.php";
+include_once "../models/entityRepresentation/Booking.class.php";
 
 class CustomerController extends AbstractController {
 
@@ -119,21 +120,30 @@ ON l.s_id = s.s_id WHERE s.company_full_name LIKE :fullName;");
         }else{
             $session = unserialize($_SESSION["userSession"]);
             return $this->connectPDO(function($conn) use($session){
-                $stmt = $conn->prepare("SELECT b.* FROM booking b JOIN service_provider s ON  b.s_id = s.s_id JOIN location l on l.s_id = s.s_id WHERE b.c_id = :id ;");
+                $stmt = $conn->prepare("SELECT s.*, b.* , l.* 
+                    FROM service_provider s 
+                        JOIN booking b  ON  b.s_id = s.s_id
+                        JOIN location l on l.s_id = s.s_id
+                    WHERE b.c_id = :id ;");
                 $stmt->bindValue(":id", $session->getUserId());
                 $stmt->execute();
 
                 if($stmt->rowCount() > 0){
-                    $bookingSlots = [];
+                    $serviceProviders = [];
+                    // TODO:  IN THE FUTURE, TO DECREASE THE AMOUNT OF DATA
+
                     foreach ($stmt->fetchAll() as $row) {
-                        $bookingSlot = new BookingSlot(
-                            $row["time_stamp"], $row["s_id"], false, new Booking(
-                                $row["booking_status"], $row["review"]
-                            )
+                        $serviceProvider = new ServiceProvider(
+                            $row["s_id"], $row["company_full_name"], $row["approved_status"], new Location(
+                                $row["s_id"], $row["eir_code"], $row["second_line_address"],
+                                $row["first_line_address"], $row["city"]
+                            ), array(new BookingSlot($row["time_stamp"], $row["s_id"], false,
+                                new Booking($row["booking_status"], $row["review"])
+                            ))
                         );
-                        array_push($bookingSlots, $bookingSlot);
+                        array_push($serviceProviders, $serviceProvider);
                     }
-                    return $bookingSlots;
+                    return $serviceProviders;
                 }else{
                     return [];
                 }
