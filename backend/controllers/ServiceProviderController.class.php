@@ -62,5 +62,24 @@ class ServiceProviderController extends AbstractController {
         }
     }
 
+    public function cancelBooking(BookingSlot $bookingSlot, $c_id){
+        return $this->connectPDO(function($conn) use($bookingSlot, $c_id){
+            try{
+                $stmt = $conn->prepare("DELETE FROM booking WHERE s_id = :s_id AND c_id = :c_id AND time_stamp = :time_stamp ;");
+                $stmt->bindValue(":s_id", $bookingSlot->getSId());
+                $stmt->bindValue(":c_id", $c_id);
+                $stmt->bindValue(":time_stamp", $bookingSlot->getTimestamp());
+                $stmt->execute();
+                $stmt2 = $conn->prepare("UPDATE booking_slots SET availability = TRUE WHERE s_id = :s_id AND timestamp = :time_stamp ;");
+                $stmt2->bindValue(":s_id", $bookingSlot->getSId());
+                $stmt2->bindValue(":time_stamp", $bookingSlot->getTimestamp());
+                $stmt2->execute();
+                return true;
+            }catch (PDOException $e){
+                return false;
+            }
+        });
+    }
+
 
 }
