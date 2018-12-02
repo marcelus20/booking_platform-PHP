@@ -21,6 +21,11 @@ function selectExecution($executionType, CustomerController $customerController)
             header('Content-Type: application/json');
             return json_encode($customerController->searchBarbers(new SearchBarberModel($data["fullName"])));
         }
+        case "searchBookingSlots":{
+            $id = file_get_contents('php://input');
+            header('Content-Type: application/json');
+            return json_encode($customerController->searchBookingSlots($id));
+        }
     }
 }
 

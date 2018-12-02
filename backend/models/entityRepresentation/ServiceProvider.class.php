@@ -14,6 +14,7 @@ class ServiceProvider implements JsonSerializable {
     private $company_full_name;
     private $approved_status;
     private $location;
+    private $bookingSlots;
 
     /**
      * ServiceProvider constructor.
@@ -21,12 +22,15 @@ class ServiceProvider implements JsonSerializable {
      * @param $company_full_name
      * @param $approved_status
      * @param $location
+     * @param $bookingSlots
      */
-    public function __construct($s_id, $company_full_name, $approved_status, Location $location){
+    public function __construct($s_id, $company_full_name, $approved_status, Location $location, array $bookingSlots = [])
+    {
         $this->s_id = $s_id;
         $this->company_full_name = $company_full_name;
         $this->approved_status = $approved_status;
         $this->location = $location;
+        $this->bookingSlots = $bookingSlots;
     }
 
     /**
@@ -78,7 +82,7 @@ class ServiceProvider implements JsonSerializable {
     }
 
     /**
-     * @return Location
+     * @return mixed
      */
     public function getLocation()
     {
@@ -86,11 +90,27 @@ class ServiceProvider implements JsonSerializable {
     }
 
     /**
-     * @param Location $location
+     * @param mixed $location
      */
     public function setLocation($location)
     {
         $this->location = $location;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBookingSlots()
+    {
+        return $this->bookingSlots;
+    }
+
+    /**
+     * @param mixed $bookingSlots
+     */
+    public function setBookingSlots($bookingSlots)
+    {
+        $this->bookingSlots = $bookingSlots;
     }
 
 
