@@ -5,6 +5,10 @@ class BookingSlot {
         this.availability = availability;
         this.booking = booking;
     }
+
+    withBooking(newBooking){
+        return new BookingSlot(this.timestamp, this.s_id, this.availability, newBooking);
+    }
 }
 
 const bookingSlot = ({timestamp, s_id, availability, booking}) =>

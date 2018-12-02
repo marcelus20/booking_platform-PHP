@@ -10,6 +10,7 @@ include_once "../models/SearchBarberModel.class.php";
 include_once "../controllers/CustomerController.class.php";
 include_once "../models/entityRepresentation/BookingSlot.class.php";
 include_once "../models/entityRepresentation/Booking.class.php";
+include_once "../models/SessionModel.class.php";
 
 session_start();
 
@@ -39,6 +40,13 @@ function selectExecution($executionType, CustomerController $customerController)
         case "getAllBookings" : {
             header('Content-Type: application/json');
             return json_encode($customerController->getAllBookings());
+        }
+        case "cancelBooking" : {
+            $c_id = unserialize($_SESSION["userSession"])->getUserId();
+            $data = json_decode(file_get_contents('php://input'), true);
+            return $customerController->cancelBooking(
+                new BookingSlot($data["timestamp"], $data["s_id"], false, null), $c_id
+            );
         }
     }
 }

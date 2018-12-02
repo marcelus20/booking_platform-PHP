@@ -13,10 +13,17 @@ const alertUpdate = (msg, type) => {
     alertUpdateElement.innerHTML = msg;
     alertUpdateElement.setAttribute("class", alertType);
     alertUpdateElement.setAttribute("role", "alert");
+
+    setTimeout((()=>{
+        clearAlertdiv();
+    }), 2000);
+
 };
 
 const clearAlertdiv = () => {
     const alertUpdateElement = document.querySelector("#alertUpdate");
+    alertUpdateElement.setAttribute("class", "");
+    alertUpdateElement.setAttribute("role", "alert");
     alertUpdateElement.innerHTML = "";
 };
 
@@ -34,3 +41,41 @@ const formatDateWithPaddedZero = (date) => {
 };
 
 const select = (strId) => document.querySelector("#"+strId);
+
+const setAnElementClassToInvisible = (id) => select(id).classList.add("invisible");
+
+const setAnElementClassToVisible = (id) => select(id).classList.remove("invisible");
+
+const showColapsedBooking = (barberId) => {
+    const reviewOptions = ["END_OF_THE_WORLD", "TERRIBLE", "BAD", "MEH", "OK", "GOOD", "VERY_GOOD", "SUPERB", "PERFECT"];
+    return `
+    <h3>booking Options</h3>
+    <table class="table">
+        <tr>            
+            <td>
+                <h4>REVIEW OPTION</h4>
+                <form>
+                     <div class="form-group">
+                        <select class="form-control" id="reviewSelect">
+                            ${
+        reviewOptions.map(option=>`<option value=${option}>${option}</option>`)
+            .reduce((acc, next)=>acc+next)
+        }
+                        </select>
+                        <button type="button" class="btn btn-secondary" id="submit-review">
+                            submit review
+                        </button>
+                    </div>
+                </form> 
+            </td>
+            <td>
+                <button type="button" class="btn btn btn-danger" onclick="cancelBooking(${barberId})">
+                    Cancel Appointment
+                </button>
+            </td>
+        </tr>
+    </table>
+    `;
+};
+
+
