@@ -41,16 +41,8 @@ const manageFormAlerts = () => {
 
         switch (field) {
             case !field && (index === 1 || index === 2 ):{
-                alertDiv("Password fields don't match!", "danger", select("alerPasswordError"));
-            }
-            case !field && index === 3:{
-                alertDiv("This field must contain at least 2 characters", "danger", select("alerPhoneError"));
-            }
-            case !field && index === 4:{
-                alertDiv("This field must contain at least 2 characters", "danger", select("alerFirstNameError"));
-            }
-            case !field && index === 5:{
-                alertDiv("This field must contain at least 2 characters", "danger", select("alertSecondNameError"));
+                alertDiv("Password fields don't match! or they do not follow criteria" +
+                    "the criteria is to be 0-8 characters at least 1 digit, upper case and symbol", "danger", select("alerPasswordError"));
             }
         }
     });
