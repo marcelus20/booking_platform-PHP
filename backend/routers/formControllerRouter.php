@@ -13,7 +13,7 @@ function selectExecution($executionType, FormController $mainController){
     switch ($executionType){
         case "registerCustomer": {
             $data = json_decode(file_get_contents('php://input'), true);
-            $customerFormModel = new CustomerFormModel($data["email"], $data["password"], $data["confirmPassword"],
+            $customerFormModel = new CustomerFormModel($data["email"], md5($data["password"]), md5($data["confirmPassword"]),
                 $data["phone"], $data["first_name"], $data["last_name"]);
             return $mainController->registerCustomer($customerFormModel, $customerFormModel);
         }
