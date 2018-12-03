@@ -6,7 +6,8 @@
  * Time: 00:21
  */
 
-class FormModel{
+
+class CustomerFormModel{
     private $email, $password, $confirmPass, $phone, $firstName, $lastName;
 
     function __construct($email, $password, $confirmPass, $phone, $firstName, $lastName){
