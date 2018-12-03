@@ -57,7 +57,7 @@ const manageFormAlerts = () => {
 };
 
 const checkFormValidation = ()=> {
-    checkPasswordFields(formElements[1].value, formElements[2].value);
+    checkPasswordFields(formElements[1].value, formElements[2].value, customerFields);
     formElements.map((element, index)=>{
         if(element.value.trim().length > 1){
             if(element.id !== "password" && element.id !== "confirm-password"){
