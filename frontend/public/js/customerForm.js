@@ -18,7 +18,7 @@ const handleCustomerForm = (formController) => {
 
     customerFields = formElements.map(key=>false);
 
-    formElements.map((element, index)=>element.addEventListener("keyup", ()=>checkFormValidation()))
+    formElements.map((element, index)=>element.addEventListener("keyup", ()=>checkFormValidation()));
 
     const customerSubscription = select("customer-subscription");
     customerSubscription.addEventListener("submit", (e)=>{
