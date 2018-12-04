@@ -20,6 +20,33 @@ const alertUpdate = (msg, type) => {
 
 };
 
+const alertDiv = (msg, type, div) => {
+    let alertType = "";
+    if(type === "info"){
+        alertType = "alert alert-info"
+    }else if (type === "danger"){
+        alertType = "alert alert-danger";
+    }else if (type === "warning"){
+        alertType = "alert alert-warning";
+    }else if (type === "success"){
+        alertType = "alert alert-success";
+    }
+    div.innerHTML = msg;
+    div.setAttribute("class", alertType);
+    div.setAttribute("role", "alert");
+
+    setTimeout((()=>{
+        clearDiv(div);
+    }), 2000);
+
+};
+
+const clearDiv = (div) => {
+    div.setAttribute("class", "");
+    div.setAttribute("role", "alert");
+    div.innerHTML = "";
+};
+
 const clearAlertdiv = () => {
     const alertUpdateElement = document.querySelector("#alertUpdate");
     alertUpdateElement.setAttribute("class", "");
@@ -38,6 +65,15 @@ const add0ToTheLeft = (dateIndex) =>{
 
 const formatDateWithPaddedZero = (date) => {
     return  date.getFullYear()+ "-"+ add0ToTheLeft(date.getMonth()+1)+"-"+add0ToTheLeft(date.getDate());
+};
+
+const formatDateAndTimeWithPaddedZero = (date) => {
+    return  date.getFullYear()+ "-"+ add0ToTheLeft(date.getMonth()+1)+"-"+add0ToTheLeft(date.getDate()) +
+        " "+add0ToTheLeft(date.getHours()) + ":" + add0ToTheLeft(date.getMinutes());
+};
+
+const getTimeFromDate = (date) => {
+    return add0ToTheLeft(date.getHours()) + ":" + add0ToTheLeft(date.getMinutes());
 };
 
 const select = (strId) => document.querySelector("#"+strId);
@@ -83,7 +119,30 @@ const showColapsedBooking = (barberId) => {
 };
 
 const confDatePicker = ()=> {
-    // console.log(formatDateWithPaddedZero(new Date()));
-    select("datePicker").setAttribute("min", formatDateWithPaddedZero(new Date()))
+    const datePicker = select("datePicker");
+    datePicker.setAttribute("min", formatDateWithPaddedZero(new Date()));
+    return datePicker;
 } ;
+
+const passwordHasOneSymbol = (password)=>password.match(new RegExp('[!#@&\\d&Ñ]')).length > 0;
+const passwordHasOneCapital = (password)=>password.match(new RegExp('[A-Z0-9\\d&Ñ]')).length >0;
+
+const passwordFollowsCriteria = (password) => (password.length > 7 && password.length <13)
+    && passwordHasOneCapital(password);
+
+const stringHasNumber = (str) => {
+    for(let char of a.split("")){
+
+        if(!isNaN(char)){
+            return true;
+        }
+    }
+    return false;
+
+};
+
+const checkPasswordFields = (passA, passB, flagFields) => {
+    flagFields[1] = passA === passB && passwordFollowsCriteria(passA) && passwordHasOneSymbol(passA);
+    flagFields[2] = passA === passA;
+};
 
