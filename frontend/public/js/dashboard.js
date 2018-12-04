@@ -60,11 +60,22 @@ window.addEventListener("load", ()=>{
     const serviceViewRendering = (sessionModel) => {
         setAnElementClassToVisible("provider_area");
         const insertSlotsTab = select("insert-slots");
-        insertSlotsTab.classList.remove("invisible");
         const viewCustomerListTab = select("view-customers-list");
+
+
+        insertSlotsTab.addEventListener("click", ()=>{
+            setAnElementClassToInvisible("customerListContainer");
+            serviceProviderController().goToSlotsInsertionPage();
+        });
+
+
+        insertSlotsTab.classList.remove("invisible");
         viewCustomerListTab.classList.remove("invisible")
 
+
+
         viewCustomerListTab.addEventListener("click", ()=>{
+            setAnElementClassToInvisible("slots_page");
             serviceProviderController().goToCustomerListPage();
         });
 
