@@ -1,0 +1,24 @@
+@import "style.css";
+
+.invisible{
+    visibility: hidden;
+    display: none !important;
+}
+
+.col{
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-left: 2px;
+    margin-right: 2px;
+    display: inline-block;
+    width: 45%;
+    height: 45%;
+    /*border: dimgray solid 2px;*/
+}
+
+
+.box{
+    width: 1000px;
+    height: 200px;
+    flex-wrap: wrap;
+}
