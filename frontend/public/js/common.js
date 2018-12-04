@@ -1,4 +1,4 @@
-const alertUpdate = (msg, type) => {
+const alertUpdate = (msg, type, time=2000) => {
     let alertType = "";
     if(type === "info"){
         alertType = "alert alert-info"
@@ -16,11 +16,11 @@ const alertUpdate = (msg, type) => {
 
     setTimeout((()=>{
         clearAlertdiv();
-    }), 2000);
+    }), time);
 
 };
 
-const alertDiv = (msg, type, div) => {
+const alertDiv = (msg, type, time = 2000 ,div) => {
     let alertType = "";
     if(type === "info"){
         alertType = "alert alert-info"
@@ -37,7 +37,7 @@ const alertDiv = (msg, type, div) => {
 
     setTimeout((()=>{
         clearDiv(div);
-    }), 2000);
+    }), time);
 
 };
 
@@ -73,8 +73,12 @@ const formatDateAndTimeWithPaddedZero = (date) => {
 };
 
 const getTimeFromDate = (date) => {
-    return add0ToTheLeft(date.getHours()) + ":" + add0ToTheLeft(date.getMinutes());
+    return add0ToTheLeft(date.getHours()) + ":" + add0ToTheLeft(date.getMinutes()) + ":" + add0ToTheLeft(date.getSeconds());
 };
+
+//this function will only work if paramenter is a string representation of a date in the following format:
+//YYYY-MM-DD HH:MM:SS
+const getTimeFromDateString = (dateString) => dateString.split(" ")[1];
 
 const select = (strId) => document.querySelector("#"+strId);
 
