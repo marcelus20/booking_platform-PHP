@@ -41,7 +41,10 @@ window.addEventListener("load", ()=>{
                 setTimeout((()=> errorDiv.style.visibility = "hidden"), 2000);
             })
 
+
     });
+
+
 
     const main = () => {
         checkLogin().then(addEventToForm);

@@ -30,7 +30,6 @@ window.addEventListener("load", ()=>{
 
     const adminViewRendering = (sessionModel) => {
         console.log(sessionModel);
-
         return sessionModel;
     };
 
