@@ -100,7 +100,7 @@ class ServiceProviderController extends AbstractController {
     public function searchSlotsWithDate($date, $s_id){
         return $this->connectPDO(function($conn) use($date, $s_id){
             try{
-                $stmt = $conn->prepare("SELECT * FROM booking_slots WHERE s_id = :s_id AND timestamp LIKE :timestamp AND availability = FALSE");
+                $stmt = $conn->prepare("SELECT * FROM booking_slots WHERE s_id = :s_id AND timestamp LIKE :timestamp;");
                 $stmt->bindValue(":s_id", $s_id);
                 $stmt->bindValue(":timestamp", $date."%");
                 $stmt->execute();
@@ -116,6 +116,23 @@ class ServiceProviderController extends AbstractController {
             }catch (PDOException $e){
                 return false;
             }
+        });
+    }
+
+    public function insertSlots($dates, $s_id){
+        return $this->connectPDO(function ($conn) use($dates, $s_id){
+            try{
+                foreach ($dates as $date){
+                    $bookingSlot = new BookingSlot($date["date"], $s_id, TRUE, null);
+                    $stmt = $conn->prepare("INSERT INTO booking_slots VALUES (:timestamp, :s_id, :availability);");
+                    $stmt->bindValue(":timestamp", $bookingSlot->getTimestamp());
+                    $stmt->bindValue(":s_id", $bookingSlot->getSId());
+                    $stmt->bindValue(":availability", $bookingSlot->getAvailability());
+                    $stmt->execute();
+                }
+
+                return true;
+            }catch(PDOException $e){return false;}
         });
     }
 

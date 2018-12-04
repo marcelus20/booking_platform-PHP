@@ -39,6 +39,11 @@ function selectExecution($executionType, ServiceProviderController $serviceProvi
             $date = json_decode(file_get_contents('php://input'), true);
             return $serviceProviderController->searchSlotsWithDate($date["date"], $s_id);
         }
+        case "sendSlots": {
+            $s_id = unserialize($_SESSION["userSession"])->getUserId();
+            $dates = json_decode(file_get_contents('php://input'), true);
+            return $serviceProviderController->insertSlots($dates, $s_id);
+        }
     }
 }
 
