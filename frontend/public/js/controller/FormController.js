@@ -19,13 +19,12 @@ class FormController{
         fetch(this.ROUNTING_URL+"registerCustomer",{
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=utf-8"
+                "Content-T.ype": "application/json; charset=utf-8"
             },
             body: JSON.stringify(customer)
         }).then(response=>response.text())
             .then(text=>{
-                console.log(text);
-                console.log(customer);
+
                 if(text == 1){
                     alertDiv("Thanks for subscribing to Booking Platform System" +
                         "You will be redirected to Login page!", "success", select("success-alert"))
@@ -36,6 +35,28 @@ class FormController{
                     alertDiv("something went terribly wrong. :(((", "danger", select("success-alert"))
                 }
             })
+    }
+
+    registerServiceProvider(service){
+        fetch(this.ROUNTING_URL+"registerServiceProvider",{
+            method: "POST",
+            headers: {
+                "Content-T.ype": "application/json; charset=utf-8"
+            },
+            body: JSON.stringify(service)
+        }).then(response=>response.text())
+            .then(text=>{
+                console.log(text);
+                if(text == 1){
+                    alertDiv("Thanks for subscribing to Booking Platform System" +
+                        "You will be redirected to Login page!", "success", select("success-alert"))
+                    setTimeout(()=>{
+                        window.location.replace("/booking_platform/");
+                    }, 3000);
+                }else{
+                    alertDiv("something went terribly wrong. :(((", "danger", select("success-alert"))
+                }
+            });
     }
 
 
