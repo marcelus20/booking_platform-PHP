@@ -1,6 +1,8 @@
 let _serviceProviderController = null;
 
 
+
+
 class ServiceProviderController{
 
     static serviceProviderController (){
@@ -15,10 +17,9 @@ class ServiceProviderController{
     constructor() {
         this.ROUTING_URL = "http://localhost/booking_platform/backend/routers/serviceProviderRouter.php?executionType=";
         this.listOfCustomers = [];
+        this.slotsArray = [];
 
         const self = this;
-
-
 
 
         window.addListenerToListItem = (id) => {
@@ -77,6 +78,129 @@ class ServiceProviderController{
                 })
         };
 
+        window.fillUpSlotsArray = (notAllowedTimes, dateString) => {
+
+
+            let time = "08:00";
+            let dateAndTime = new Date(dateString + " " + time);
+            let slotArray = [];
+
+
+            for(let i = 0; i < 24; i++) {
+                dateAndTime = new Date(dateAndTime.getTime() + 1800000);
+                //IF THE ARRAY OF NOT ALLOWED TIMES CONTAINS NEW TIME GENERATED FROM DATE AND TIME
+                //DO NOT PUSH IT TO SLOT ARRAY.
+                if (!notAllowedTimes.includes(getTimeFromDate(dateAndTime))){
+                    slotArray.push(getTimeFromDate(dateAndTime));
+                }
+            }
+
+            this.slotsArray = [...slotArray.map(timeSlot=>[timeSlot, false])];
+            console.log(slotArray);
+            this.drawBadges();
+            // console.log(dateString);
+        };
+
+        window.makeAvailable = (slotIndex) => {
+            const timeSlots = [...this.slotsArray];
+            timeSlots[slotIndex][1] = !timeSlots[slotIndex][1];
+            this.slotsArray = [...timeSlots];
+            this.drawBadges();
+        };
+        window.switchButtonDisplay = () => {
+            const insertSlotsButton = select("submitSlots");
+            if(this.slotsArray.filter(([timeSlot, flag])=>flag).length > 0){
+                insertSlotsButton.classList.remove("invisible")
+            }else{
+                insertSlotsButton.classList.add("invisible");
+            }
+            return insertSlotsButton;
+        };
+
+        window.sendSlots = (dateString) => {
+            const slotsToSend = this.slotsArray.filter(([timeSlot, flag])=>flag)
+                .map(([timeSlot, flag])=>dateString+" "+timeSlot)
+                .map(timestamp=>[{date: timestamp}]).map(arr=>arr[0]);
+
+
+
+            // console.log(JSON.stringify(slotsToSend));
+            console.log(slotsToSend);
+            fetch(this.ROUTING_URL+"sendSlots",{
+                method:"POST",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8"
+                },
+                body:JSON.stringify(slotsToSend)
+            }).then(response=>response.text()).then(text=>{
+                if(text == 1){
+                    alertUpdate(
+                        "<h1>" +
+                        "You have successfully inserted the slots, now a customer will be able to see " +
+                        `and choose one of them for the date ${dateString}, within 10 seconds you will be 
+                         redirected to Home</h1>`, "success", 10000
+                    );
+                    setTimeout(()=>{
+                        window.location.replace("/booking_platform/");
+                    }, 10000)
+                }else{
+                    alertUpdate("something went wrong :((", "danger");
+                }
+            }).catch(e=>console.log(e));
+        }
+    };
+
+
+
+
+    drawBadges (){
+
+        select ("slot_not_available").innerHTML = this.slotsArray.reduce((acc, [slotTime, flag], i)=>acc +
+            `<button class="btn btn-primary" ${flag?"disabled":""} onclick="makeAvailable(${i})">${slotTime}</button>`
+        , "");
+
+        select("slot_available").innerHTML = this.slotsArray.reduce((acc, [slotTime, flag], i)=>acc +
+            `<button class="btn btn-success ${!flag?"invisible":""}" ${!flag?"disabled":""} onclick="makeAvailable(${i})">${slotTime}</button>`, "");
+        switchButtonDisplay();
+    }
+
+
+
+
+
+    populateSlotsArray(dateString){
+        //BEFORE DRAWING BADGES, IT IS NEEDED TO CHECK IN THE DATABASE IF THERE IS TIMES ALREADY INSERTED TO DB FOR THAT DATE
+        //IF SO, THE BADGES WITH THESE TIMES WILL NOT DRAW
+
+        //SENDING REQUEST TO BACKEND SERVER TO LOOK FOR NOT ALLOWED TIMES FOR THAT DATE STRING IN THE DATABASE:
+
+        fetch(this.ROUTING_URL+"lookForSlotsWithDate",{
+            method:"POST",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8"
+            },
+            body:JSON.stringify({date: dateString})
+        }).then(response=>response.json()).then(json=>{
+            const notAllowedTimes = json.map(slots=>getTimeFromDateString(slots.timestamp));
+            console.log(notAllowedTimes);
+            fillUpSlotsArray(notAllowedTimes, dateString);
+
+            select("submitSlots").addEventListener("click", ()=>{
+                sendSlots(dateString);
+            });
+        }).catch(e=>console.log(e));
+
+    }
+
+    goToSlotsInsertionPage(){
+         const slotDiv = select("slots_page");
+         setAnElementClassToVisible("slots_page");
+         const datePicker = confDatePicker();
+         datePicker.addEventListener("change", ()=>{
+             select("slot-instruction").classList.remove("invisible");
+             select("slot-box").classList.remove("invisible");
+             this.populateSlotsArray(datePicker.value);
+         })
     }
 
     goToCustomerListPage(){
@@ -165,7 +289,4 @@ class ServiceProviderController{
                     <hr>
         `, "");
     };
-
-
-
 }

@@ -63,14 +63,20 @@
                 </div>
                 <div class="invisible" id="slots_page">
                     <h1 class="display-1">Slots Insertion</h1>
-                    <h3 class="display-3">
-                        Please, click of the badges on the left container to fill
-                        right side container!
-                    </h3>
+
+                    <h4 class="display-4">Pick a date for inserting the time slots</h4>
                     <input type="date" id="datePicker">
-                    <div id="slot-box" class="box">
-                        <div id="slot_not_available" class="col"></div>
-                        <div id="slot_available" class="col"></div>
+                    <div class ="invisible" id="slot-instruction">
+                        <h3 class="display-5">Please, click on the badges on the left container to fill
+                        right side container!
+                        </h3>
+                    </div>
+                    <div>
+                        <div id="slot-box" class="box invisible" >
+                            <div id="slot_not_available" class="col"></div>
+                            <div id="slot_available" class="col"></div>
+                        </div>
+                        <div><button class="invisible btn btn-danger" id="submitSlots" >Insert the slots</button></div>
                     </div>
 
                 </div>
