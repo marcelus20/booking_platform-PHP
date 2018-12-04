@@ -6,6 +6,7 @@
  * Time: 12:18
  */
 
+include_once "../models/ServiceForm.class.php";
 include_once "../controllers/FormController.class.php";
 include_once "../models/CustomerFormModel.class.php";
 
@@ -15,7 +16,15 @@ function selectExecution($executionType, FormController $mainController){
             $data = json_decode(file_get_contents('php://input'), true);
             $customerFormModel = new CustomerFormModel($data["email"], md5($data["password"]), md5($data["confirmPassword"]),
                 $data["phone"], $data["first_name"], $data["last_name"]);
-            return $mainController->registerCustomer($customerFormModel, $customerFormModel);
+            return $mainController->registerCustomer($customerFormModel);
+        }
+        case "registerServiceProvider":{
+            $data = json_decode(file_get_contents('php://input'), true);
+            $serviceFormModel = new ServiceForm($data["email"], md5($data["password"]),
+                md5($data["confirm_password"]),$data["phone"], $data["company_full_name"],
+                $data["first_line_address"], $data["second_line_address"], $data["city"], $data["eir_code"]);
+
+            return $mainController->registerServiceProvider($serviceFormModel);
         }
     }
 }
