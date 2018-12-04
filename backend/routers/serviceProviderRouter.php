@@ -34,6 +34,11 @@ function selectExecution($executionType, ServiceProviderController $serviceProvi
 //            var_dump($data);
             return $serviceProviderController->updateBooking($data["timestamp"], $s_id, $data["c_id"], $data["booking_status"]);
         }
+        case "lookForSlotsWithDate": {
+            $s_id = unserialize($_SESSION["userSession"])->getUserId();
+            $date = json_decode(file_get_contents('php://input'), true);
+            return $serviceProviderController->searchSlotsWithDate($date["date"], $s_id);
+        }
     }
 }
 
