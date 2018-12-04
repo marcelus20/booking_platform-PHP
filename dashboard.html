@@ -30,14 +30,6 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a id="logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                 </ul>
-
-
-                <!--form class="navbar-form navbar-left" action="">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search">
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
-                </form-->
             </div>
         </nav>
         <div id="alertUpdate"></div>
@@ -69,12 +61,26 @@
 
                     </div>
                 </div>
+                <div class="invisible" id="slots_page">
+                    <h1 class="display-1">Slots Insertion</h1>
+                    <h3 class="display-3">
+                        Please, click of the badges on the left container to fill
+                        right side container!
+                    </h3>
+                    <input type="date" id="datePicker">
+                    <div id="slot-box" class="box">
+                        <div id="slot_not_available" class="col"></div>
+                        <div id="slot_available" class="col"></div>
+                    </div>
+
+                </div>
 
             </div>
-            <div id="admin_area" class="invisible">
+                <div id="admin_area" class="invisible">
 
+                </div>
             </div>
-        </div>
+
 
         <script src="frontend/public/js/models/Customer.js"></script>
         <script src="frontend/public/js/models/Booking.js"></script>
