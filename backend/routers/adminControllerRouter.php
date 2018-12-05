@@ -20,10 +20,10 @@ function selectExecution($executionType, AdminController $adminController){
         }
         case "registerAdmin": {
             $data = json_decode(file_get_contents('php://input'), true);
-
             $adminFormModel = new AdminFormModel($data["email"], strtoupper(md5($data["password"])), strtoupper(md5($data["confirmPassword"])));
-
             return $adminController->registerAdmin($adminFormModel);
+        }case "getPendentServices":{
+            return json_encode($adminController->getPendentServices());
         }
     }
 }

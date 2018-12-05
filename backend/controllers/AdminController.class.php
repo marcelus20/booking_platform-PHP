@@ -8,6 +8,7 @@
 
 include_once "AbstractController.class.php";
 include_once "../models/entityRepresentation/Log.class.php";
+include_once "../models/entityRepresentation/ServiceProvider.class.php";
 
 class AdminController extends AbstractController {
 
@@ -54,6 +55,36 @@ class AdminController extends AbstractController {
                 $stmt->execute();
 
                 return true;
+            }catch (PDOException $e){
+                return false;
+            }
+        });
+    }
+
+    public function getPendentServices(){
+        return $this->connectPDO(function ($conn){
+            try{
+
+                $stmt= $conn->prepare("SELECT * FROM service_provider s
+                                        JOIN location l ON s.s_id = l.s_id
+                                        WHERE approved_status = 'PENDENT';");
+
+                $stmt->execute();
+                $serviceProviders = [];
+
+                foreach ($stmt->fetchAll() as $row){
+                    $serviceProvider = new ServiceProvider(
+                        $row["s_id"], $row["company_full_name"], $row["approved_status"],
+                        new Location(
+                            $row["s_id"], $row["eir_code"], $row["second_line_address"], $row["first_line_address"],
+                            $row["city"]
+                        ),[]
+                    );
+
+                    array_push($serviceProviders, $serviceProvider);
+                }
+
+                return $serviceProviders;
             }catch (PDOException $e){
                 return false;
             }
