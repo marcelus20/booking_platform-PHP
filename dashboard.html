@@ -19,6 +19,9 @@
                     <li><a href="#" id="view-your-bookings" class="invisible">View your bookings</a></li>
                     <li><a href="#" id="insert-slots" class="invisible">Insert Slots</a></li>
                     <li><a href="#" id="view-customers-list" class="invisible">View Customers List</a></li>
+                    <li><a href="#" id="create-another-admin" class="invisible">Create another Admin</a></li>
+                    <li><a href="#" id="logs-view-list" class="invisible">View Activities of users</a></li>
+                    <li><a href="#" id="handle-complaint" class="invisible">Handle a complaint</a></li>
                     <form class="navbar-form navbar-left">
                         <div class="form-group" >
                             <input type="text" class="form-control invisible" placeholder="Search Barbers" id="searchEngine">
@@ -82,10 +85,14 @@
                 </div>
 
             </div>
-                <div id="admin_area" class="invisible">
-
-                </div>
+            <div id="admin_area" class="invisible">
+                <div id="createAdmin" class="invisible"></div>
             </div>
+        </div>
+
+
+
+
 
 
         <script src="frontend/public/js/models/Customer.js"></script>
@@ -96,6 +103,7 @@
         <script src="frontend/public/js/models/BarberSearchModel.js"></script>
         <script src="frontend/public/js/common.js"></script>
         <script src="frontend/public/js/models/SessionModel.js"></script>
+        <script src="frontend/public/js/controller/AdminController.js"></script>
         <script src="frontend/public/js/controller/ServiceProviderController.js"></script>
         <script src="frontend/public/js/controller/CustomerController.js"></script>
         <script src="frontend/public/js/dashboard.js"></script>

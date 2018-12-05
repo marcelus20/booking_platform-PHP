@@ -3,6 +3,7 @@ window.addEventListener("load", ()=>{
 
     const customerController = () => CustomerController.customerController();
     const serviceProviderController = () => ServiceProviderController.serviceProviderController();
+    const adminController = () => AdminController.adminController();
 
     const checkLogin = () =>
         fetch("/booking_platform/backend/routers/mainControllerRouter.php?executionType=checkLogin")
@@ -29,7 +30,24 @@ window.addEventListener("load", ()=>{
             .then(text=>sessionModel(JSON.parse(text)));
 
     const adminViewRendering = (sessionModel) => {
-        console.log(sessionModel);
+        const activityTab = select("logs-view-list");
+        const handleComplaintTab = select("handle-complaint");
+        const createAnotherAdmin = select("create-another-admin");
+        setAnElementToVisible(activityTab);
+        setAnElementToVisible(handleComplaintTab);
+        setAnElementToVisible(createAnotherAdmin);
+
+        activityTab.addEventListener("click", ()=>{
+            adminController().goToActivitiesTab();
+        });
+
+        handleComplaintTab.addEventListener("click", ()=>{
+            adminController().goToAComplaintTab();
+        });
+        createAnotherAdmin.addEventListener("click", ()=>{
+            adminController().goToAnotherAdminTab();
+        });
+
         return sessionModel;
     };
 
