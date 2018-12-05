@@ -286,7 +286,7 @@ class ServiceProviderController{
                             </tr>
                         </thead>
                     </table>
-                    <hr>
+                    <hr> 
         `, "");
     };
 }
