@@ -8,6 +8,7 @@
 
 
 include_once "../controllers/AdminController.class.php";
+include_once "../models/AdminFormModel.class.php";
 
 session_start();
 
@@ -16,6 +17,13 @@ function selectExecution($executionType, AdminController $adminController){
     switch ($executionType) {
         case "getAllLogs":{
             return json_encode($adminController->getAllLogs());
+        }
+        case "registerAdmin": {
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            $adminFormModel = new AdminFormModel($data["email"], md5($data["password"]), md5($data["confirmPassword"]));
+
+            return $adminController->registerAdmin($adminFormModel);
         }
     }
 }

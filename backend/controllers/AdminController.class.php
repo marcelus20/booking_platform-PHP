@@ -40,4 +40,23 @@ class AdminController extends AbstractController {
             return $logs;
         });
     }
+
+    public function registerAdmin(AdminFormModel $adminFormModel){
+        return $this->connectPDO(function ($conn) use ($adminFormModel){
+            try{
+                $today = date("Y-m-d");
+                $stmt= $conn->prepare("INSERT INTO users (user_type, email, password, date_created) 
+                                        VALUES ('ADMIN', :email, :password, :dateToday)");
+                $stmt->bindValue(":email", $adminFormModel->getEmail());
+                $stmt->bindValue(":password", $adminFormModel->getPassword());
+                $stmt->bindValue(":dateToday", $today);
+
+                $stmt->execute();
+
+                return true;
+            }catch (PDOException $e){
+                return false;
+            }
+        });
+    }
 }
