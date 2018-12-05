@@ -49,6 +49,15 @@ window.addEventListener("load", ()=>{
             adminController().goToAnotherAdminTab();
         });
 
+        const adminForm = select("adminForm");
+        adminForm.addEventListener("submit",(e)=>{
+            e.preventDefault();
+            const email = select("email");
+            const password = select("password");
+            const confirmPassword = select("confirmPassword");
+            adminController().registerNewAdmin(new AdminFormModel(email.value.trim(), password.value.trim(), confirmPassword.value.trim()));
+        });
+
         return sessionModel;
     };
 
@@ -122,4 +131,5 @@ window.addEventListener("load", ()=>{
     };
 
     main();
+
 });

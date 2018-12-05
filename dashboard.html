@@ -86,10 +86,32 @@
 
             </div>
             <div id="admin_area" class="invisible">
-                <div id="createAdmin" class="invisible"></div>
+                <div id="createAdmin" class="invisible">
+                    <form id="adminForm" class="formclass">
+                        <h1 class="display-1">Admin Form Subscription</h1>
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control" id="email" aria-describedby="email" placeholder="Enter email">
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" placeholder="confirmPassword">
+                        </div>
+                        <div id="alertError"></div>
+
+                        <button type="submit" class="btn btn-primary" >Submit</button>
+                    </form>
+
+                </div>
                 <div id="activity" class="invisible">
                     <h1 class="display-1">List Of Users Activities</h1>
                 </div>
+                <div id="complaintArea"></divid>
             </div>
         </div>
 
@@ -105,6 +127,7 @@
         <script src="frontend/public/js/models/ServiceProvider.js"></script>
         <script src="frontend/public/js/models/BarberSearchModel.js"></script>
         <script src="frontend/public/js/common.js"></script>
+        <script src="frontend/public/js/models/AdminFormModel.js"></script>
         <script src="frontend/public/js/models/SessionModel.js"></script>
         <script src="frontend/public/js/controller/AdminController.js"></script>
         <script src="frontend/public/js/controller/ServiceProviderController.js"></script>
