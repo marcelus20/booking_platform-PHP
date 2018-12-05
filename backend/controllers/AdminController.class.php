@@ -68,7 +68,6 @@ class AdminController extends AbstractController {
                 $stmt= $conn->prepare("SELECT * FROM service_provider s
                                         JOIN location l ON s.s_id = l.s_id
                                         WHERE approved_status = 'PENDENT';");
-
                 $stmt->execute();
                 $serviceProviders = [];
 
@@ -83,8 +82,30 @@ class AdminController extends AbstractController {
 
                     array_push($serviceProviders, $serviceProvider);
                 }
-
                 return $serviceProviders;
+            }catch (PDOException $e){
+                return false;
+            }
+        });
+    }
+
+    public function updateServiceStatus($executionType, ServiceProvider $serviceProvider){
+        return $this->connectPDO(function ($conn) use ($executionType, $serviceProvider){
+            try{
+
+                if($executionType == "approve"){
+                    $stmt= $conn->prepare("UPDATE service_provider SET approved_status = :status 
+                        WHERE s_id = :s_id;");
+                    $stmt->bindValue(":status", $serviceProvider->getApprovedStatus());
+                    $stmt->bindValue(":s_id", $serviceProvider->getSId());
+                    $stmt->execute();
+                    return true;
+                }else{
+                    $stmt= $conn->prepare("DELETE FROM service_provider WHERE s_id = :s_id");
+                    $stmt->bindValue(":s_id", $serviceProvider->getSId());
+                    $stmt->execute();
+                    return true;
+                }
             }catch (PDOException $e){
                 return false;
             }

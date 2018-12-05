@@ -14,12 +14,15 @@ class AdminController{
     constructor() {
         this.ROUTING_URL = "/booking_platform/backend/routers/adminControllerRouter.php?executionType=";
 
+        this.listOfServicesProviders = [];
+
+
         const self = this;
 
         const renderActiviityLogToView = (data) => {
-            const createAdminDiv = select("activity");
+            const activityDiv = select("activity");
             console.log(data);
-            createAdminDiv.innerHTML += `
+            activityDiv.innerHTML += `
             <ul class="list-group">
                 ${data.map(logObject=>`
                 <li class="list-group-item">
@@ -39,9 +42,129 @@ class AdminController{
                 .then(json=>{
                     renderActiviityLogToView(json);
                 });
+        };
+
+        window.toggleService = (serviceId) => {
+            const listOfServices = [...self.listOfServicesProviders];
+            self.listOfServicesProviders = listOfServices.map(([s,flag])=>{
+                if(s.s_id == serviceId){
+                    flag = true;
+                }else{
+                    flag = false;
+                }
+                return [s, flag];
+            });
+            console.log(self.listOfServicesProviders);
+            renderServicesToView();
+        };
+
+
+
+        window.updateBarberStatus = (routingUrl, [[serviceProvider]]) => {
+            if(routingUrl === "approve"){
+                serviceProvider.approved_status = 'APPROVED';
+            }
+            console.log(routingUrl, serviceProvider);
+            fetch(self.ROUTING_URL+routingUrl,{
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8"
+                },
+                body: JSON.stringify(serviceProvider)
+            }).then(response=>response.text())
+                .then(text=>{
+                    if(text == 1){
+                        if(routingUrl === "approve"){
+                            alertDiv(`<h1 class="display-1">
+                                You have successfully approved ${serviceProvider.company_full_name}
+                            </h1> `, "success",4000 , select("pendentServices"));
+                        }else{
+                            alertDiv(`<h1 class="display-1">
+                                You have reproved ${serviceProvider.company_full_name}
+                            </h1> `, "info", 4000, select("pendentServices"));
+                        }
+                    }else{
+                        console.log(text);
+                        alertDiv(`<h1 class="display-1">
+                                Something went terribly wrong, this page will update in 10 seconds
+                            </h1> `, "warning", 4000, select("pendentServices"));
+                    }
+
+                    setTimeout(()=>{
+                        self.goToPendentServicesPage();
+                    }, 4000);
+                })
+        };
+
+        window.approve = (service_id) =>{
+            updateBarberStatus("approve", self.listOfServicesProviders.filter(([service]) =>service
+                .s_id ==service_id));
+        };
+
+        window.reprove = (service_id) =>{
+            updateBarberStatus("reprove", self.listOfServicesProviders.filter(([service])=>service
+                .s_id ==service_id));
+        };
+
+
+        window.renderServicesToView = () => {
+            const pendentList = select("pendentServices");
+            pendentList.innerHTML = `
+            <h1 class="display-1">Pendent Service Providers</h1>
+            <h3 class="display-1">click on one of the rows to toggle options</h3>
+            <ul class="list-group">
+                ${self.listOfServicesProviders.map(([service, flag])=>`
+                <li class="list-group-item" onclick="toggleService(${service.s_id})">
+                    <ul class="list-inline">
+                        <li class="list-inline-item">${service.company_full_name}</li>
+                        <li class="list-inline-item">${service.approved_status}</li>
+                        <!--<li class="list-inline-item">${service.activity_log}</li>-->
+                    </ul>
+                </li>
+                ${flag?`<li class="list-group-item" id="${service.s_id}">
+                    <h2 class="display-2">${service.company_full_name} details:</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Address First Line</th>
+                                <th>Address Second Line</th>
+                                <th>City</th>
+                                <th>Eir Code</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>${service.location.first_line_address}</td>
+                                <td>${service.location.second_line_address}</td>
+                                <td>${service.location.city}</td>
+                                <td>${service.location.eir_code}</td>
+                            </tr>   
+                            <tr>
+                                <td colspan="2"><button class="btn btn-success" onclick="approve(${service.s_id})">Approve</button></td>
+                                <td colspan="2"><button class="btn btn-danger" onclick="reprove(${service.s_id})">Reject!</button></td>
+                            </tr>                      
+                        </tbody>
+                    </table>
+                </li>`:""}
+                
+`).reduce((acc, item)=>acc+item, "")}
+            </ul>
+            `;
+        };
+
+        window.retrievePendentServiceProviders = () =>{
+            fetch(self.ROUTING_URL+"getPendentServices")
+                .then(response=>response.json())
+                .then(json=>{
+                    if(json.length == 0){
+                        alertDiv("<h3 class='display-3'>You are all caught up! There are no Pendent Service Providers</h3>",
+                            "info", 0, select("pendentServices"))
+                    }else{
+                        self.listOfServicesProviders = json.map(services=>[services, false]);
+                        renderServicesToView();
+                    }
+                });
         }
     }
-
 
 
     goToActivitiesTab(){
@@ -54,10 +177,29 @@ class AdminController{
         retrieveLogsFromServer();
     }
 
+
+
+
+    goToPendentServicesPage(){
+        const viewActivity = select("activity");
+        const createAdminArea = select("createAdmin");
+        const complaintArea = select("complaintArea");
+        const pendentServices = select("pendentServices");
+        setAnElementToInvisible(pendentServices);
+        setAnElementToInvisible(viewActivity);
+        setAnElementToInvisible(complaintArea);
+        setAnElementToInvisible(createAdminArea);
+        setAnElementToVisible(pendentServices);
+        retrievePendentServiceProviders();
+    }
+
+
     goToAComplaintTab(){
         const viewActivity = select("activity");
         const createAdminArea = select("createAdmin");
         const complaintArea = select("complaintArea");
+        const pendentServices = select("pendentServices");
+        setAnElementToInvisible(pendentServices);
         setAnElementToInvisible(createAdminArea);
         setAnElementToInvisible(viewActivity);
         setAnElementToVisible(complaintArea);
@@ -70,7 +212,8 @@ class AdminController{
         const viewActivity = select("activity");
         const createAdminArea = select("createAdmin");
         const complaintArea = select("complaintArea");
-
+        const pendentServices = select("pendentServices");
+        setAnElementToInvisible(pendentServices);
         setAnElementToInvisible(viewActivity);
         setAnElementToInvisible(complaintArea);
         setAnElementToVisible(createAdminArea);

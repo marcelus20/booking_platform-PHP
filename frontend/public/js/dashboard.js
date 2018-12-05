@@ -34,9 +34,15 @@ window.addEventListener("load", ()=>{
         const activityTab = select("logs-view-list");
         const handleComplaintTab = select("handle-complaint");
         const createAnotherAdmin = select("create-another-admin");
+        const pendentServicesTab = select("pendentServicesTab");
         setAnElementToVisible(activityTab);
         setAnElementToVisible(handleComplaintTab);
         setAnElementToVisible(createAnotherAdmin);
+        setAnElementToVisible(pendentServicesTab);
+
+        pendentServicesTab.addEventListener("click", ()=>{
+            adminController().goToPendentServicesPage();
+        });
 
         activityTab.addEventListener("click", ()=>{
             adminController().goToActivitiesTab();

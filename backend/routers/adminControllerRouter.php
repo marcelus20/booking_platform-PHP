@@ -9,6 +9,7 @@
 
 include_once "../controllers/AdminController.class.php";
 include_once "../models/AdminFormModel.class.php";
+include_once "../models/entityRepresentation/ServiceProvider.class.php";
 
 session_start();
 
@@ -24,6 +25,20 @@ function selectExecution($executionType, AdminController $adminController){
             return $adminController->registerAdmin($adminFormModel);
         }case "getPendentServices":{
             return json_encode($adminController->getPendentServices());
+        }
+        case "approve":{
+            $data = json_decode(file_get_contents('php://input'), true);
+            $serviceProvider = new ServiceProvider($data["s_id"], $data["company_full_name"], $data["approved_status"],
+                new Location($data["location"]["s_id"], $data["location"]["eir_code"], $data["location"]["second_line_address"],
+                   $data["location"]["first_line_address"] , $data["location"]["city"]), []);
+            return $adminController->updateServiceStatus($executionType, $serviceProvider);
+        }
+        case "reprove":{
+            $data = json_decode(file_get_contents('php://input'), true);
+            $serviceProvider = new ServiceProvider($data["s_id"], $data["company_full_name"], $data["approved_status"],
+                new Location($data["location"]["s_id"], $data["location"]["eir_code"], $data["location"]["second_line_address"],
+                    $data["location"]["first_line_address"] , $data["location"]["city"]), []);
+            return $adminController->updateServiceStatus($executionType, $serviceProvider);
         }
     }
 }
