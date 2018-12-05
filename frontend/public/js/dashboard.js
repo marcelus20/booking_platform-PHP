@@ -30,6 +30,7 @@ window.addEventListener("load", ()=>{
             .then(text=>sessionModel(JSON.parse(text)));
 
     const adminViewRendering = (sessionModel) => {
+        select("admin_area").classList.remove("invisible");
         const activityTab = select("logs-view-list");
         const handleComplaintTab = select("handle-complaint");
         const createAnotherAdmin = select("create-another-admin");

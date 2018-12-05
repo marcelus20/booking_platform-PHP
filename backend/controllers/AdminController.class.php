@@ -29,12 +29,12 @@ class AdminController extends AbstractController {
 
     public function getAllLogs () {
         return $this->connectPDO(function ($conn){
-            $stmt = $conn->prepare("SELECT * FROM logs;");
+            $stmt = $conn->prepare("SELECT * FROM logs l JOIN users u ON l.id = u.id ORDER BY log_id DESC LIMIT 50;");
             $stmt->execute();
             $logs = [];
 
             foreach ($stmt->fetchAll() as $row){
-                array_push($logs, new Log($row["log_id"], $row["id"], $row["activity_log"])) ;
+                array_push($logs, new Log($row["log_id"], $row["email"], $row["activity_log"])) ;
 
             }
             return $logs;
