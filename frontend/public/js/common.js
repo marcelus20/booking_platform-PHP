@@ -35,9 +35,11 @@ const alertDiv = (msg, type, time = 2000 ,div) => {
     div.setAttribute("class", alertType);
     div.setAttribute("role", "alert");
 
-    setTimeout((()=>{
-        clearDiv(div);
-    }), time);
+    if(time !== 0){
+        setTimeout((()=>{
+            clearDiv(div);
+        }), time);
+    }
 
 };
 
