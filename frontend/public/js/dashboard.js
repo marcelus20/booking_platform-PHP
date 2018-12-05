@@ -91,29 +91,48 @@ window.addEventListener("load", ()=>{
         return sessionModel;
     };
 
+
     const serviceViewRendering = (sessionModel) => {
-        setAnElementClassToVisible("provider_area");
-        const insertSlotsTab = select("insert-slots");
-        const viewCustomerListTab = select("view-customers-list");
+        fetch("http://localhost/booking_platform/backend/routers/serviceProviderRouter.php?executionType=checkMyStatus")
+            .then(response=>response.text())
+            .then(text=>{
+                if(text != 1){
+                    setAnElementClassToVisible("provider_area");
+                    const insertSlotsTab = select("insert-slots");
+                    const viewCustomerListTab = select("view-customers-list");
 
 
-        insertSlotsTab.addEventListener("click", ()=>{
-            setAnElementClassToInvisible("customerListContainer");
-            serviceProviderController().goToSlotsInsertionPage();
-        });
+                    insertSlotsTab.addEventListener("click", ()=>{
+                        setAnElementClassToInvisible("customerListContainer");
+                        serviceProviderController().goToSlotsInsertionPage();
+                    });
 
 
-        insertSlotsTab.classList.remove("invisible");
-        viewCustomerListTab.classList.remove("invisible")
+                    insertSlotsTab.classList.remove("invisible");
+                    viewCustomerListTab.classList.remove("invisible")
 
 
 
-        viewCustomerListTab.addEventListener("click", ()=>{
-            setAnElementClassToInvisible("slots_page");
-            serviceProviderController().goToCustomerListPage();
-        });
+                    viewCustomerListTab.addEventListener("click", ()=>{
+                        setAnElementClassToInvisible("slots_page");
+                        serviceProviderController().goToCustomerListPage();
+                    });
+                }else{
+                    alertUpdate(`
+                    <div class="jumbotron jumbotron-fluid">
+                        <div class="container">
+                            <h1 class="display-4">Your status is unfortunately pendent. You will not be able to perform any activity</h1>
+                            <p class="lead">
+                                What should I do now?
+                                Just wait, one of the administrators will either approve you if your details seem to be genuine.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    `, "secondary", 0);
+                }
 
-
+            });
         return sessionModel;
     };
 

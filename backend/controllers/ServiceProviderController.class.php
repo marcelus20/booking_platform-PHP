@@ -136,5 +136,26 @@ class ServiceProviderController extends AbstractController {
         });
     }
 
+    public function checkIfIsPendent($s_id){
+        return $this->connectPDO(function ($conn) use($s_id){
+            try{
+
+                $stmt = $conn->prepare("SELECT approved_status FROM service_provider WHERE s_id = :s_id;");
+                $stmt->bindValue(":s_id", $s_id);
+                $stmt->execute();
+
+                $status = "";
+                foreach ($stmt->fetchAll() as $row){
+                    $status = $row["approved_status"];
+                }
+                if($status == "PENDENT"){
+                    return true;
+                }else{
+                    return false;
+                }
+            }catch(PDOException $e){return false;}
+        });
+    }
+
 
 }

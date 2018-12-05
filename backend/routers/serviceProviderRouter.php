@@ -44,6 +44,10 @@ function selectExecution($executionType, ServiceProviderController $serviceProvi
             $dates = json_decode(file_get_contents('php://input'), true);
             return $serviceProviderController->insertSlots($dates, $s_id);
         }
+        case "checkMyStatus": {
+            $s_id = unserialize($_SESSION["userSession"])->getUserId();
+            return $serviceProviderController->checkIfIsPendent($s_id);
+        }
     }
 }
 

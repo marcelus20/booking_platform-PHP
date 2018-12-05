@@ -8,15 +8,20 @@ const alertUpdate = (msg, type, time=2000) => {
         alertType = "alert alert-warning";
     }else if (type === "success"){
         alertType = "alert alert-success";
+    }else if (type === "secondary"){
+        alertType = "alert alert-secondary";
     }
     const alertUpdateElement = document.querySelector("#alertUpdate");
     alertUpdateElement.innerHTML = msg;
     alertUpdateElement.setAttribute("class", alertType);
     alertUpdateElement.setAttribute("role", "alert");
 
-    setTimeout((()=>{
-        clearAlertdiv();
-    }), time);
+    if(time != 0){
+        setTimeout((()=>{
+            clearAlertdiv();
+        }), time);
+    }
+
 
 };
 
