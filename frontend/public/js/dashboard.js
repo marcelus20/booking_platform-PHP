@@ -49,6 +49,7 @@ window.addEventListener("load", ()=>{
             adminController().goToAnotherAdminTab();
         });
 
+        //TODO: validade this form fields!
         const adminForm = select("adminForm");
         adminForm.addEventListener("submit",(e)=>{
             e.preventDefault();
