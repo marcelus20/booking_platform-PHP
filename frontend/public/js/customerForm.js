@@ -42,7 +42,7 @@ const manageFormAlerts = () => {
         switch (field) {
             case !field && (index === 1 || index === 2 ):{
                 alertDiv("Password fields don't match! or they do not follow criteria" +
-                    "the criteria is to be 0-8 characters at least 1 digit, upper case and symbol", "danger", select("alerPasswordError"));
+                    "the criteria is to be 8-12 characters at least 1 digit, upper case and symbol !@$#", "danger", 0, select("alerPasswordError"));
             }
         }
     });
