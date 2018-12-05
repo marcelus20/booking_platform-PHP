@@ -21,7 +21,7 @@ function selectExecution($executionType, AdminController $adminController){
         case "registerAdmin": {
             $data = json_decode(file_get_contents('php://input'), true);
 
-            $adminFormModel = new AdminFormModel($data["email"], md5($data["password"]), md5($data["confirmPassword"]));
+            $adminFormModel = new AdminFormModel($data["email"], strtoupper(md5($data["password"])), strtoupper(md5($data["confirmPassword"])));
 
             return $adminController->registerAdmin($adminFormModel);
         }

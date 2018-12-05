@@ -10,7 +10,7 @@ function selectExecution($executionType, MainController $mainController){
     switch ($executionType){
         case "login": {
             $data = json_decode(file_get_contents('php://input'), true);
-            return $mainController->login(new LoginModel($data["email"], md5($data["password"])));
+            return $mainController->login(new LoginModel($data["email"], strtoupper(md5($data["password"]))));
         }
         case "logout": return $mainController->logout();
         case "getUserData": {
