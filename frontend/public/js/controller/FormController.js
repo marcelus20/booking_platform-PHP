@@ -27,12 +27,12 @@ class FormController{
 
                 if(text == 1){
                     alertDiv("Thanks for subscribing to Booking Platform System" +
-                        "You will be redirected to Login page!", "success", select("success-alert"))
+                        "You will be redirected to Login page!", "success", 0, select("success-alert"));
                     setTimeout(()=>{
                         window.location.replace("/booking_platform/");
                     }, 3000);
                 }else{
-                    alertDiv("something went terribly wrong. :(((", "danger", select("success-alert"))
+                    alertDiv("something went terribly wrong. :(((", "danger", 0, select("success-alert"));
                 }
             })
     }
@@ -49,14 +49,15 @@ class FormController{
                 console.log(text);
                 if(text == 1){
                     alertDiv("Thanks for subscribing to Booking Platform System" +
-                        "You will be redirected to Login page!", "success", select("success-alert"))
+                        "You will be redirected to Login page!", "success", 0 ,select("success-alert"))
                     setTimeout(()=>{
                         window.location.replace("/booking_platform/");
                     }, 3000);
                 }else{
-                    alertDiv("something went terribly wrong. :(((", "danger", select("success-alert"))
+                    alertDiv("something went terribly wrong. :(((", "danger", 0,select("success-alert"))
                 }
             });
+
     }
 
 
