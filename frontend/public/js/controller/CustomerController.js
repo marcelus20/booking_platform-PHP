@@ -57,9 +57,9 @@ class CustomerController{
 
         };
 
-        window.book = (id) => {
+        window.book = (id, timestamp) => {
             const [[barber]] = self.serviceProviders.filter(([serviceProvider, flag])=>parseInt(serviceProvider.s_id )=== id);
-            const [bookingSlot] = barber.bookingSlots.filter(booking_slot=>parseInt(booking_slot.s_id )=== id);
+            const [bookingSlot] = barber.bookingSlots.filter(booking_slot=>parseInt(booking_slot.s_id )=== id && booking_slot.timestamp === timestamp);
             return fetch(self.CUSTOMER_ROUTER_URL+"bookSlot", {
                 method: "POST",
                 headers: {
@@ -152,7 +152,7 @@ class CustomerController{
                 barber.bookingSlots.reduce(((acc, item)=>acc +
                 `
                     <li class="list-group-item">${item.timestamp}
-                        <button type="button" class="btn btn-primary" onclick="book(${item.s_id})">Book this slot</button>
+                        <button type="button" class="btn btn-primary" onclick="book(${item.s_id}, '${item.timestamp}')">Book this slot</button>
                     </li>
                 `
                 ), "")
