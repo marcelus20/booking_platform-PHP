@@ -19,6 +19,24 @@ class ServiceProviderController extends AbstractController {
      */
     public function __construct(){
         parent::__construct();
+        $this->clearOldSlots();
+        $this->setOldBookingsToComplete();
+    }
+
+    private function clearOldSlots(){
+        return $this->connectPDO(function($conn){
+            $st = $conn->prepare("DELETE FROM booking_slots WHERE timestamp < NOW() AND availability = true");
+            $st->execute();
+            return "";
+        });
+    }
+
+    private function setOldBookingsToComplete(){
+        return $this->connectPDO(function($conn){
+            $st = $conn->prepare("UPDATE booking SET booking_status = 'COMPLETE' WHERE time_stamp < NOW() AND (booking_status = 'CONFIRMED' OR booking_status = 'PENDENT');");
+            $st->execute();
+            return "";
+        });
     }
 
     public static function customerController(){
