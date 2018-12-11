@@ -195,6 +195,7 @@ class AdminController{
 
 
     goToAComplaintTab(){
+        console.log("admin");
         const viewActivity = select("activity");
         const createAdminArea = select("createAdmin");
         const complaintArea = select("complaintArea");

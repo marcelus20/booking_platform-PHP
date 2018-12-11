@@ -15,7 +15,7 @@
                     <a class="navbar-brand" href="http://localhost/booking_platform" id="helloUser"></a>
                 </div>
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="http://localhost/booking_platform">Home</a></li>
+                    <li class="active"><a href="http://localhost/booking_platform/dashboard.html">Home</a></li>
                     <li><a href="#" id="view-your-bookings" class="invisible">View your bookings</a></li>
                     <li><a href="#" id="insert-slots" class="invisible">Insert Slots</a></li>
                     <li><a href="#" id="view-customers-list" class="invisible">View Customers List</a></li>
@@ -39,7 +39,22 @@
         <div id="alertUpdate"></div>
         <div class="resultSet">
             <div id="customer_area" class="invisible">
+                <div id="customerHome">
+                    <div class="jumbotron">
+                        <h1 class="display-4">Welcome to the booking Platform!</h1>
+                        <p class="lead">Ready for a haircut? Use the search bar on the top to look for a barber!</p>
+                        <hr class="my-4">
+                        <p>Want to manage your bookings? Click on the button bellow or on the tab "View your bookings" above"</p>
+                        <p class="lead">
+                            <a class="btn btn-primary btn-lg" href="#" role="button" id="btn-viewBookings">View your bookings</a>
+                        </p>
+                    </div>
+                </div>
                 <div id="tableCustomer"></div>
+                <div id="instructions" class="alert alert-light invisible" role="alert">
+                    <h1 class="display-1">List of Barbers/Hairdressers</h1>
+                    <h3 class="display-3">Click on the table rows to display list of bookings with that Barber</h3>
+                </div>
                 <table class="table table-dark invisible" id="searchBarberResult">
                     <thead>
                         <tr>
@@ -59,6 +74,22 @@
 
             </div>
             <div id="provider_area" class="invisible">
+                <div id="serviceHome">
+                    <div class="jumbotron">
+                        <h1 class="display-4">Welcome to the booking Platform!</h1>
+                        <p class="lead">You can offer your services by making booking slots available at the "insert slots" tab!</p>
+                        <p class="lead">
+                            <a class="btn btn-primary btn-lg" href="#" role="button" id="btn-slots">Insert Slots</a>
+                        </p>
+                        <hr class="my-4">
+                        <p>You can also see the customers that have booked with you and manage cancel or update status of the booking<br>
+                        By clicking on the row table to toggle details. Just hit the button bellow
+                        </p>
+                        <p class="lead">
+                            <a class="btn btn-primary btn-lg" href="#" role="button" id="btn-viewCustomers">View your customers</a>
+                        </p>
+                    </div>
+                </div>
                 <div class="invisible" id="customerListContainer">
                     <h1 class="display-1">LIST OF CUSTOMERS BOOKED WITH YOU</h1>
                     <div id="customerListView">
@@ -90,6 +121,33 @@
 
             </div>
             <div id="admin_area" class="invisible">
+                <div id="adminHome">
+                    <div class="jumbotron">
+                        <h1 class="display-4">Welcome to the booking Platform!</h1>
+                        <p class="lead">You, as an admin, can create another admin for the system, just hit the button below!</p>
+                        <p class="lead">
+                            <a class="btn btn-success btn-lg" href="#" role="button" id="btn-createAdmin">Create Admin</a>
+                        </p>
+                        <hr class="my-4">
+                        <p>You can see what the users are doing by reading through the activity log table!
+                        </p>
+                        <p class="lead">
+                            <a class="btn btn-success btn-lg" href="#" role="button" id="btn-viewActivityLog">View Activities</a>
+                        </p>
+                        <hr class="my-4">
+                        <p>For the newly registered service providers, you can investigate their details and approve or reject their application
+                        </p>
+                        <p class="lead">
+                            <a class="btn btn-success btn-lg" href="#" role="button" id="btn-approve">Approve/Reject service provider</a>
+                        </p>
+                        <hr class="my-4">
+                        <p>Handle a complaint that a customer made about a service provider
+                        </p>
+                        <p class="lead">
+                            <a class="btn btn-success btn-lg" href="#" role="button" id="btn-complaint">Handle a complaint</a>
+                        </p>
+                    </div>
+                </div>
                 <div id="createAdmin" class="invisible">
                     <form id="adminForm" class="formclass">
                         <h1 class="display-1">Admin Form Subscription</h1>

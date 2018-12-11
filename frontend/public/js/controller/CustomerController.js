@@ -170,6 +170,7 @@ class CustomerController{
     };
 
     fetchToHTML (serviceProviders)  {
+        setAnElementToVisible(select("instructions"));
         return serviceProviders.reduce(((acc, [barber, flag])=>acc+`
             <tr onclick="addRowAListener(${barber.s_id})">
                 <td><strong>${barber.company_full_name}</strong></td>
@@ -197,12 +198,15 @@ class CustomerController{
     };
 
     retrieveBookings () {
+
         fetch(this.CUSTOMER_ROUTER_URL+"getAllBookings")
             .then(response=>response.json())
             .then(json=>json.map(booking=>[booking, false]))
             .then(json=> {
                 this.listOfBookings = json;
                 setAnElementClassToVisible("displayBookingsDiv");
+                setAnElementToInvisible(select("instructions"));
+                setAnElementToInvisible(select("customerHome"));
                 select("displayBookingsList").innerHTML = this.displayBookings();
             });
     };
@@ -210,24 +214,39 @@ class CustomerController{
 
     displayBookings (){
         if(this.listOfBookings.length > 0){
-            return this.listOfBookings.reduce((acc,[{s_id, company_full_name,
-                location, bookingSlots:[bookingSlot_]}, flag])=>acc+`
-            <li class="list-group-item" onclick="addColapsedListAnEventListener(${s_id}, '${bookingSlot_.timestamp}')">
-                    
-                <ul class="list-inline">
-                    <li class="list-inline-item"><string>${bookingSlot_.timestamp}</string></li>
-                    <li class="list-inline-item">${company_full_name}</li>
-                    <li class="list-inline-item">${location.first_line_address}</li>
-                    <li class="list-inline-item">${location.second_line_address}</li>
-                    <li class="list-inline-item"><strong>${location.city}</strong></li>
-                    <li class="list-inline-item"><strong>${bookingSlot_.booking.booking_status}</strong></li>
-                    <li class="list-inline-item"><h3>${bookingSlot_.booking.review}</h3></strong></li>
-                </ul>
-            </li>
-            <li class="list-group-item" id="collapsedbarber${s_id}">
-                 ${flag?showColapsedBooking(s_id):""}
-            </li>
-                `, "");
+            return `
+                <h1 class="display-1">List of Bookings</h1>
+                <h2 class="display-2">please, click on one of the table rows to display more options</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date and time</th>
+                            <th>Barber / Hairdresser</th>
+                            <th>Address line 1</th>
+                            <th>Address line 2</th>
+                            <th>City</th>
+                            <th>Booking Status</th>
+                            <th>Review</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                           
+            `+this.listOfBookings.reduce((acc,[{s_id, company_full_name,
+                location, bookingSlots:[bookingSlot_]}, flag])=>acc+
+                `
+                    <tr onclick="addColapsedListAnEventListener(${s_id}, '${bookingSlot_.timestamp}')">
+                        <td>${bookingSlot_.timestamp}</td>
+                        <td>${company_full_name}</td>
+                        <td>${location.first_line_address}</td>
+                        <td>${location.second_line_address}</td>
+                        <td>${location.city}</td>
+                        <td>${bookingSlot_.booking.booking_status}</td>
+                        <td>${bookingSlot_.booking.review}</td>
+                    </tr>
+                    ${flag?
+                    `<tr><td colspan="7">${showColapsedBooking(s_id, bookingSlot_.booking.booking_status)}</td></tr>`
+                    :""}
+                `, "")+`</tbody></table>`;
         }else {
             return "<div class=\"alert alert-info\" role=\"alert\"><h2>You have no bookings at the moment to display</h2></div>";
         }

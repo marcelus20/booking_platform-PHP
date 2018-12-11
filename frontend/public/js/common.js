@@ -97,10 +97,15 @@ const setAnElementToInvisible = (element)=> element.classList.add("invisible");
 
 const setAnElementClassToVisible = (id) => select(id).classList.remove("invisible");
 
-const showColapsedBooking = (barberId) => {
+const showColapsedBooking = (barberId, bookingStatus) => {
     const reviewOptions = ["END_OF_THE_WORLD", "TERRIBLE", "BAD", "MEH", "OK", "GOOD", "VERY_GOOD", "SUPERB", "PERFECT"];
     return `
     <h3>booking Options</h3>
+    <div class="alert alert-light" role="alert">      
+        <h3 class="display-3">You cannot give a review to a booking that is not complete!</h3>
+        <h3 class="display-3">You cannot cancel an appointment that is already complete</h3>  
+    </div>
+    
     <table class="table">
         <tr>            
             <td>
@@ -113,14 +118,16 @@ const showColapsedBooking = (barberId) => {
             .reduce((acc, next)=>acc+next)
         }
                         </select>
-                        <button type="button" class="btn btn-secondary" id="submit-review" onclick="updateReview(${barberId})">
+                        <button type="button" class="btn btn-secondary" id="submit-review" 
+                            ${bookingStatus !== 'COMPLETE'? "disabled":""} onclick="updateReview(${barberId})">
                             submit review
                         </button>
                     </div>
                 </form> 
             </td>
             <td>
-                <button type="button" class="btn btn btn-danger" onclick="cancelBooking(${barberId})">
+                <button type="button" class="btn btn btn-danger" 
+                    ${bookingStatus === 'COMPLETE'?"disabled":""} onclick="cancelBooking(${barberId})">
                     Cancel Appointment
                 </button>
             </td>

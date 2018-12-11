@@ -35,23 +35,52 @@ window.addEventListener("load", ()=>{
         const handleComplaintTab = select("handle-complaint");
         const createAnotherAdmin = select("create-another-admin");
         const pendentServicesTab = select("pendentServicesTab");
+        const btnActivity = select("btn-viewActivityLog");
+        const btnHandle = select("btn-complaint");
+        const btnCreateAdmin = select("btn-createAdmin");
+        const btnApproveService = select("btn-approve");
         setAnElementToVisible(activityTab);
         setAnElementToVisible(handleComplaintTab);
         setAnElementToVisible(createAnotherAdmin);
         setAnElementToVisible(pendentServicesTab);
 
+        btnActivity.addEventListener("click", ()=>{
+            setAnElementToInvisible(select("adminHome"));
+            adminController().goToActivitiesTab();
+        });
+
+        btnHandle.addEventListener("click", ()=>{
+            setAnElementToInvisible(select("adminHome"));
+            adminController().goToAComplaintTab();
+        });
+
+        btnCreateAdmin.addEventListener("click", ()=>{
+            setAnElementToInvisible(select("adminHome"));
+            adminController().goToAnotherAdminTab();
+        });
+
+        btnApproveService.addEventListener("click",()=>{
+            setAnElementToInvisible(select("adminHome"));
+            adminController().goToPendentServicesPage();
+        });
+
+
         pendentServicesTab.addEventListener("click", ()=>{
+            setAnElementToInvisible(select("adminHome"));
             adminController().goToPendentServicesPage();
         });
 
         activityTab.addEventListener("click", ()=>{
+            setAnElementToInvisible(select("adminHome"));
             adminController().goToActivitiesTab();
         });
 
         handleComplaintTab.addEventListener("click", ()=>{
+            setAnElementToInvisible(select("adminHome"));
             adminController().goToAComplaintTab();
         });
         createAnotherAdmin.addEventListener("click", ()=>{
+            setAnElementToInvisible(select("adminHome"));
             adminController().goToAnotherAdminTab();
         });
 
@@ -71,6 +100,10 @@ window.addEventListener("load", ()=>{
     const customerViewRendering = (sessionModel) => {
         select("customer_area").classList.remove("invisible");
         const viewBooking  = select("view-your-bookings");
+        const btnViewBooking = select("btn-viewBookings");
+        btnViewBooking.addEventListener("click", ()=>{
+            customerController().retrieveBookings();
+        })
         viewBooking.classList.remove("invisible");
         viewBooking.addEventListener("click", ()=>{
             customerController().retrieveBookings();
@@ -100,21 +133,33 @@ window.addEventListener("load", ()=>{
                     setAnElementClassToVisible("provider_area");
                     const insertSlotsTab = select("insert-slots");
                     const viewCustomerListTab = select("view-customers-list");
+                    const btnSlots = select("btn-slots");
+                    const btnCustomer = select("btn-viewCustomers");
+                    btnCustomer.addEventListener("click", ()=>{
+                        setAnElementClassToInvisible("slots_page");
+                        setAnElementToInvisible(select("serviceHome"));
+                        serviceProviderController().goToCustomerListPage();
+                    });
 
-
-                    insertSlotsTab.addEventListener("click", ()=>{
+                    btnSlots.addEventListener("click", ()=>{
                         setAnElementClassToInvisible("customerListContainer");
+                        setAnElementToInvisible(select("serviceHome"));
                         serviceProviderController().goToSlotsInsertionPage();
                     });
 
+                    insertSlotsTab.addEventListener("click", ()=>{
+                        setAnElementClassToInvisible("customerListContainer");
+                        setAnElementToInvisible(select("serviceHome"));
+                        serviceProviderController().goToSlotsInsertionPage();
+                    });
 
                     insertSlotsTab.classList.remove("invisible");
-                    viewCustomerListTab.classList.remove("invisible")
-
+                    viewCustomerListTab.classList.remove("invisible");
 
 
                     viewCustomerListTab.addEventListener("click", ()=>{
                         setAnElementClassToInvisible("slots_page");
+                        setAnElementToInvisible(select("serviceHome"));
                         serviceProviderController().goToCustomerListPage();
                     });
                 }else{
