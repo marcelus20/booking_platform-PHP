@@ -142,7 +142,7 @@ const passwordFollowsCriteria = (password) => (password.length > 7 && password.l
     && passwordHasOneCapital(password);
 
 const stringHasNumber = (str) => {
-    for(let char of a.split("")){
+    for(let char of str.split("")){
 
         if(!isNaN(char)){
             return true;
