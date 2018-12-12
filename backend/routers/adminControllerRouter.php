@@ -10,6 +10,7 @@
 include_once "../controllers/AdminController.class.php";
 include_once "../models/AdminFormModel.class.php";
 include_once "../models/entityRepresentation/ServiceProvider.class.php";
+include_once "../models/entityRepresentation/Complaint.class.php";
 
 session_start();
 
@@ -39,6 +40,9 @@ function selectExecution($executionType, AdminController $adminController){
                 new Location($data["location"]["s_id"], $data["location"]["eir_code"], $data["location"]["second_line_address"],
                     $data["location"]["first_line_address"] , $data["location"]["city"]), []);
             return $adminController->updateServiceStatus($executionType, $serviceProvider);
+        }
+        case "getAllComplaints":{
+            return json_encode($adminController->getAllComplaints());
         }
     }
 }

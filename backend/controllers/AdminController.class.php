@@ -112,4 +112,25 @@ class AdminController extends AbstractController {
             }
         });
     }
+
+    public function getAllComplaints(){
+        return $this->connectPDO(function ($conn){
+
+            $stmt= $conn->prepare("SELECT c.complaint_ID, s.company_full_name, cu.first_name, c.complaint_status, c.complaint
+                                  FROM complaints c 
+                                      JOIN service_provider s
+                                          ON s.s_id = c.s_id
+                                      JOIN customers cu
+                                          ON cu.c_id = c.c_id;");
+            $stmt->execute();
+            $complaints = [];
+            foreach ($stmt->fetchAll() as $row) {
+                array_push($complaints, new Complaint(
+                    $row["complaint_ID"], $row["company_full_name"], $row["first_name"], $row["complaint_status"]
+                    , $row["complaint"]
+                ));
+            }
+            return $complaints;
+        });
+    }
 }
