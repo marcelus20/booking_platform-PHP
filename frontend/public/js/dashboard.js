@@ -84,7 +84,7 @@ window.addEventListener("load", ()=>{
             adminController().goToAnotherAdminTab();
         });
 
-        //TODO: validade this form fields!
+        //TODO: validate these form fields!
         const adminForm = select("adminForm");
         adminForm.addEventListener("submit",(e)=>{
             e.preventDefault();
@@ -100,10 +100,28 @@ window.addEventListener("load", ()=>{
     const customerViewRendering = (sessionModel) => {
         select("customer_area").classList.remove("invisible");
         const viewBooking  = select("view-your-bookings");
+        const makeAComplaintTab = select("make-a-complaint");
+        setAnElementToVisible(makeAComplaintTab);
+
+        const btnMakeComplaints = select("btn-make-complaint");
+        btnMakeComplaints.addEventListener("click", ()=>{
+            setAnElementToInvisible(select("customerHome"));
+            setAnElementToInvisible(select("tableCustomer"));
+            setAnElementToInvisible(select("displayBookingsDiv"));
+            customerController().makeAComplaint();
+        });
+
+        makeAComplaintTab.addEventListener("click", ()=>{
+            setAnElementToInvisible(select("customerHome"));
+            setAnElementToInvisible(select("tableCustomer"));
+            setAnElementToInvisible(select("displayBookingsDiv"));
+            customerController().makeAComplaint();
+        });
         const btnViewBooking = select("btn-viewBookings");
+
         btnViewBooking.addEventListener("click", ()=>{
             customerController().retrieveBookings();
-        })
+        });
         viewBooking.classList.remove("invisible");
         viewBooking.addEventListener("click", ()=>{
             customerController().retrieveBookings();
@@ -113,6 +131,7 @@ window.addEventListener("load", ()=>{
         searchEngine.classList.remove("invisible");
         searchEngine.addEventListener("keyup",()=>{
             setAnElementClassToInvisible("displayBookingsDiv");
+            setAnElementClassToInvisible("customerHome");
             if(searchEngine.value.length > 0){
                 select("searchBarberResult").classList.remove("invisible");
             }else {

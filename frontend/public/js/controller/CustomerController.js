@@ -7,6 +7,7 @@ class CustomerController{
     constructor(){
         this.serviceProviders = [];
         this.listOfBookings = [];
+        this.listOfServiceProvidersBookedWith = [];
         this.CUSTOMER_ROUTER_URL = "/booking_platform/backend/routers/customerControllerRouter.php?executionType=";
 
 
@@ -133,6 +134,94 @@ class CustomerController{
 
         };
 
+        window.toggleCustomerComplaintForm = (barberId) =>{
+            self.listOfServiceProvidersBookedWith = self
+                .listOfServiceProvidersBookedWith.map(([service, flag])=>{
+                    if(service.s_id == barberId){
+                        return [service, true];
+                    }else{
+                        return [service, false];
+                    }
+                });
+            fetchListOfProvidersBookedWith();
+        };
+
+
+        window.sendComplaintToServer = (complaint) => {
+            fetch(self.CUSTOMER_ROUTER_URL+"insertComplaint",{
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json; charset=utf-8"
+                    },
+                    body: JSON.stringify(complaint)
+                })
+                .then(response=>response.text())
+                .then(text=>{
+                    if(text == 1){
+                        alertUpdate("Your complaint has been sent. Our administrators will handle it soon", "success");
+                        setTimeout(()=>{
+                            goToHome();
+                        }, 2000);
+                    }else{
+                        alertUpdate("Something went wrong", "danger");
+                    }
+                });
+        };
+
+        window.submitComplaint = (barber_id) => {
+            const [[customerComplaintModel]] = self.listOfServiceProvidersBookedWith
+                .filter(([result, flag])=>result.s_id == barber_id);
+
+            const complaint = new Complaint("",
+                customerComplaintModel.s_id,
+                "",
+                customerComplaintModel.company_full_name,
+                "", select("complaintTextArea").value);
+
+            if(complaint.complaint.trim().length > 0){
+                //SEND
+                sendComplaintToServer(complaint);
+
+            }else{
+                alertUpdate("You have not typed anything", "danger");
+            }
+
+        };
+
+        window.fetchListOfProvidersBookedWith = () => {
+            const tableBody = select("makeAcomplaintTableBody");
+            tableBody.innerHTML = self.listOfServiceProvidersBookedWith
+                .reduce((acc, [result, flag])=>acc+`
+                    <tr class="clickable" onclick="toggleCustomerComplaintForm(${result.s_id})">
+                        <td>${result.company_full_name}</td>
+                        <td>${result.times_booked}</td>
+                    </tr>
+                    ${flag?`
+                        <tr>
+                            <td>
+                                <h4 class="display-4">Tell us what happened</h4>
+                                <textarea name="" id="complaintTextArea" rows="3" class="form-control"></textarea>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-warning" 
+                                onclick="submitComplaint(${result.s_id})">Submit Complaint</button>
+                            </td>
+                        </tr>
+                    `:""}
+                `, "");
+        };
+
+        window.retrieveBarbersListFromServer = () => {
+            fetch(self.CUSTOMER_ROUTER_URL+"selectBarbersBooked")
+                .then(response=>response.json())
+                .then(json=>{
+                    setAnElementToInvisible(select("searchBarberResult"));
+                    setAnElementToInvisible(select("instructions"));
+                    self.listOfServiceProvidersBookedWith = json.map(result=>[result, false]);
+                    fetchListOfProvidersBookedWith();
+                });
+        }
+
     }
 
     static customerController (){
@@ -171,15 +260,16 @@ class CustomerController{
 
     fetchToHTML (serviceProviders)  {
         setAnElementToVisible(select("instructions"));
+        setAnElementToInvisible(select("makeComplaintArea"));
         return serviceProviders.reduce(((acc, [barber, flag])=>acc+`
-            <tr onclick="addRowAListener(${barber.s_id})">
+            <tr onclick="addRowAListener(${barber.s_id})" class="clickable">
                 <td><strong>${barber.company_full_name}</strong></td>
                 <td>${barber.location.city}</td>    
             </tr>    
+            ${flag?`
             <tr>
-                <td colspan="2" id="slots${barber.s_id}">${flag?this.drawCollapsedBarber(barber):""}</td>
-            </tr>
-        `), "");
+                <td colspan="2" id="slo ts${barber.s_id}">${this.drawCollapsedBarber(barber)}</td>
+            </tr>`:""}`), "");
     };
 
     searchBarber (barberSearchModel){
@@ -197,6 +287,16 @@ class CustomerController{
             });
     };
 
+
+
+
+    makeAComplaint(){
+        setAnElementToVisible(select("makeComplaintArea"));
+        retrieveBarbersListFromServer();
+
+    }
+
+
     retrieveBookings () {
 
         fetch(this.CUSTOMER_ROUTER_URL+"getAllBookings")
@@ -207,6 +307,8 @@ class CustomerController{
                 setAnElementClassToVisible("displayBookingsDiv");
                 setAnElementToInvisible(select("instructions"));
                 setAnElementToInvisible(select("customerHome"));
+                setAnElementToInvisible(select("makeComplaintArea"));
+                setAnElementToInvisible(select("searchBarberResult"));
                 select("displayBookingsList").innerHTML = this.displayBookings();
             });
     };
@@ -234,7 +336,7 @@ class CustomerController{
             `+this.listOfBookings.reduce((acc,[{s_id, company_full_name,
                 location, bookingSlots:[bookingSlot_]}, flag])=>acc+
                 `
-                    <tr onclick="addColapsedListAnEventListener(${s_id}, '${bookingSlot_.timestamp}')">
+                    <tr class="clickable" onclick="addColapsedListAnEventListener(${s_id}, '${bookingSlot_.timestamp}')">
                         <td>${bookingSlot_.timestamp}</td>
                         <td>${company_full_name}</td>
                         <td>${location.first_line_address}</td>
