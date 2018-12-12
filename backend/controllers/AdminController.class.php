@@ -101,7 +101,8 @@ class AdminController extends AbstractController {
                     $stmt->execute();
                     return true;
                 }else{
-                    $stmt= $conn->prepare("DELETE FROM service_provider WHERE s_id = :s_id");
+                    $stmt= $conn->prepare("UPDATE service_provider SET approved_status = 'REJECTED' 
+                        WHERE s_id = :s_id;");
                     $stmt->bindValue(":s_id", $serviceProvider->getSId());
                     $stmt->execute();
                     return true;
