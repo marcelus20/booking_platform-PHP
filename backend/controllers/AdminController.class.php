@@ -133,4 +133,22 @@ class AdminController extends AbstractController {
             return $complaints;
         });
     }
+
+    public function updateAComplaintStatus(Complaint $complaint){
+        return $this->connectPDO(function ($conn) use ($complaint){
+            try{
+                $stmt= $conn->prepare("UPDATE complaints SET complaint_status = :status 
+                                                    WHERE s_id = :s_id AND 
+                                                          c_id = :c_id;");
+                $stmt->bindValue(":status", $complaint->getComplaintStatus());
+                $stmt->bindValue(":s_id", $complaint->getSId());
+                $stmt->bindValue(":c_id", $complaint->getCId());
+                $stmt->execute();
+                return true;
+            }catch (PDOException $e){
+                return false;
+            }
+        });
+    }
+
 }
