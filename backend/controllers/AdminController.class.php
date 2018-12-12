@@ -116,7 +116,7 @@ class AdminController extends AbstractController {
     public function getAllComplaints(){
         return $this->connectPDO(function ($conn){
 
-            $stmt= $conn->prepare("SELECT c.complaint_ID, s.company_full_name, cu.first_name, c.complaint_status, c.complaint
+            $stmt= $conn->prepare("SELECT c.complaint_ID, c.s_id, c.c_id, s.company_full_name, cu.first_name, c.complaint_status, c.complaint
                                   FROM complaints c 
                                       JOIN service_provider s
                                           ON s.s_id = c.s_id
@@ -126,7 +126,7 @@ class AdminController extends AbstractController {
             $complaints = [];
             foreach ($stmt->fetchAll() as $row) {
                 array_push($complaints, new Complaint(
-                    $row["complaint_ID"], $row["company_full_name"], $row["first_name"], $row["complaint_status"]
+                    $row["complaint_ID"], $row["s_id"], $row["c_id"], $row["company_full_name"], $row["first_name"], $row["complaint_status"]
                     , $row["complaint"]
                 ));
             }

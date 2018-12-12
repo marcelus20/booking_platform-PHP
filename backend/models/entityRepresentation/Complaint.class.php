@@ -11,21 +11,28 @@ class Complaint implements JsonSerializable {
     private $complaint_ID;
     private $s_id;
     private $c_id;
+    private $serviceName;
+    private $customerName;
     private $complaint_status;
     private $complaint;
 
     /**
-     * Complaints constructor.
+     * Complaint constructor.
      * @param $complaint_ID
      * @param $s_id
      * @param $c_id
+     * @param $serviceName
+     * @param $customerName
      * @param $complaint_status
      * @param $complaint
      */
-    public function __construct($complaint_ID, $s_id, $c_id, $complaint_status, $complaint){
+    public function __construct($complaint_ID, $s_id, $c_id, $serviceName, $customerName, $complaint_status, $complaint)
+    {
         $this->complaint_ID = $complaint_ID;
         $this->s_id = $s_id;
         $this->c_id = $c_id;
+        $this->serviceName = $serviceName;
+        $this->customerName = $customerName;
         $this->complaint_status = $complaint_status;
         $this->complaint = $complaint;
     }
@@ -81,6 +88,38 @@ class Complaint implements JsonSerializable {
     /**
      * @return mixed
      */
+    public function getServiceName()
+    {
+        return $this->serviceName;
+    }
+
+    /**
+     * @param mixed $serviceName
+     */
+    public function setServiceName($serviceName)
+    {
+        $this->serviceName = $serviceName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCustomerName()
+    {
+        return $this->customerName;
+    }
+
+    /**
+     * @param mixed $customerName
+     */
+    public function setCustomerName($customerName)
+    {
+        $this->customerName = $customerName;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getComplaintStatus()
     {
         return $this->complaint_status;
@@ -109,6 +148,9 @@ class Complaint implements JsonSerializable {
     {
         $this->complaint = $complaint;
     }
+
+
+
 
 
 
