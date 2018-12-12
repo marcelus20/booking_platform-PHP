@@ -22,3 +22,8 @@
     height: 200px;
     flex-wrap: wrap;
 }
+
+.clickable:hover{
+    cursor: pointer;
+    background-color: lightgray;
+}
