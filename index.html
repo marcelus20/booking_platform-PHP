@@ -6,6 +6,9 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <link rel="stylesheet" href="../../css/style.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
     <nav class="navbar navbar-inverse">
@@ -26,6 +29,9 @@
         <div class="alert alert-danger" role="alert" id="errorCred">
             A user with these credentials does not exist or credentials are not correct!
         </div>
+        <div class="alert alert-warning invisible" role="alert" id="errorCaptcha">
+            Captcha should be verifyied.
+        </div>
         <div class="card">
             <h1 class="card-header">Log in</h1>
             <form>
@@ -40,6 +46,10 @@
                     <input type="password" class="form-control" name="password-input" id="password" placeholder="Password">
                 </div>
                 <div id="errorAlert"></div>
+<!--                <div id="html_element"></div>-->
+
+<!--                <sitekey="6Ldh0YAUAAAAAGEkriVI6Ilw_V5OAxd5i4v479ku"></div>-->
+                <div id="recaptcha" class="g-recaptcha" data-sitekey="6Ldh0YAUAAAAAGEkriVI6Ilw_V5OAxd5i4v479ku"></div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
@@ -47,5 +57,9 @@
     <script src="frontend/public/js/models/LoginModel.js"></script>
     <script src="frontend/public/js/common.js"></script>
     <script src="frontend/public/js/index.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+            async defer>
+    </script>
+
     </body>
 </html>
