@@ -57,6 +57,10 @@ function selectExecution($executionType, CustomerController $customerController)
                 ), $c_id
             );
         }
+        case "selectBarbersBooked" : {
+            $c_id = unserialize($_SESSION["userSession"])->getUserId();
+            return json_encode($customerController->getServicesBooked($c_id));
+        }
     }
 }
 

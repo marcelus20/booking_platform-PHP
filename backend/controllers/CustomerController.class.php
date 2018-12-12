@@ -12,6 +12,7 @@ include_once "AbstractController.class.php";
 include_once "../models/entityRepresentation/BookingSlot.class.php";
 include_once "../models/SessionModel.class.php";
 include_once "../models/entityRepresentation/Booking.class.php";
+include_once "../models/ComplaintCustomerModel.class.php";
 
 class CustomerController extends AbstractController {
 
@@ -175,7 +176,6 @@ ON l.s_id = s.s_id WHERE s.company_full_name LIKE :fullName;");
 
     public function updateReview(BookingSlot $bookingSlot, $c_id){
         return $this->connectPDO(function($conn) use($bookingSlot, $c_id){
-
             try{
                 $stmt = $conn->prepare("UPDATE booking SET review = :review WHERE time_stamp = :time_stamp AND s_id = :s_id AND c_id = :c_id ;");
                 $stmt->bindValue(":review", $bookingSlot->getBooking()->getReview());
@@ -189,6 +189,33 @@ ON l.s_id = s.s_id WHERE s.company_full_name LIKE :fullName;");
             }
 
 
+        });
+    }
+
+    public function getServicesBooked($c_id){
+        return $this->connectPDO(function ($conn)use ($c_id){
+            $stmt = $conn->prepare("SELECT s.s_id, s.company_full_name, 
+                                        (SELECT COUNT(*) FROM booking boo 
+                                              JOIN service_provider se
+                                                    ON boo.s_id = se.s_id
+                                              JOIN customers cu
+                                                    ON cu.c_id = boo.c_id
+                                              WHERE cu.c_id = c.c_id)'times_booked' 
+                                    FROM service_provider s 
+                                          JOIN booking b
+                                              ON s.s_id = b.s_id
+                                          JOIN customers c
+                                              ON c.c_id = b.c_id
+                                          WHERE c.c_id = :id;");
+            $stmt->bindValue(":id", $c_id);
+            $stmt->execute();
+            $complaintCustomerModels = [];
+            foreach ($stmt->fetchAll() as $row){
+                array_push($complaintCustomerModels, new ComplaintCustomerModel(
+                    $row["s_id"], $row["company_full_name"], $row["times_booked"]
+                ) );
+            }
+            return $complaintCustomerModels;
         });
     }
 
