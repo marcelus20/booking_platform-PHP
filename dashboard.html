@@ -17,6 +17,7 @@
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="http://localhost/booking_platform/dashboard.html">Home</a></li>
                     <li><a href="#" id="view-your-bookings" class="invisible">View your bookings</a></li>
+                    <li><a href="#" id="make-a-complaint" class="invisible">Make A Complaint</a></li>
                     <li><a href="#" id="insert-slots" class="invisible">Insert Slots</a></li>
                     <li><a href="#" id="view-customers-list" class="invisible">View Customers List</a></li>
                     <li><a href="#" id="create-another-admin" class="invisible">Create another Admin</a></li>
@@ -42,15 +43,22 @@
                 <div id="customerHome">
                     <div class="jumbotron">
                         <h1 class="display-4">Welcome to the booking Platform!</h1>
-                        <p class="lead">Ready for a haircut? Use the search bar on the top to look for a barber!</p>
+                        <p class="lead">Ready for a haircut? Use the search bar on the top to look for a barber!<br>
+                            The result list will show as you type!
+                        </p>
                         <hr class="my-4">
-                        <p>Want to manage your bookings? Click on the button bellow or on the tab "View your bookings" above"</p>
+                        <p>Want to manage your bookings? Click on the button bellow or on the tab "View your bookings" above</p>
                         <p class="lead">
                             <a class="btn btn-primary btn-lg" href="#" role="button" id="btn-viewBookings">View your bookings</a>
                         </p>
+                        <hr class="my-4">
+                        <p>Have you had a bad experience with one of the services? Please, send us a feedback for us to look into it!</p>
+                        <p class="lead">
+                            <a class="btn btn-primary btn-lg" href="#" role="button" id="btn-make-complaint">make a complaint :(</a>
+                        </p>
                     </div>
                 </div>
-                <div id="tableCustomer"></div>
+                <div id="tableCustomer" class="invisible"></div>
                 <div id="instructions" class="alert alert-light invisible" role="alert">
                     <h1 class="display-1">List of Barbers/Hairdressers</h1>
                     <h3 class="display-3">Click on the table rows to display list of bookings with that Barber</h3>
@@ -70,6 +78,21 @@
                     <ul class="list-group" id="displayBookingsList">
 
                     </ul>
+                </div>
+                <div id="makeComplaintArea" class="invisible">
+                    <h1 class="display-1">List of Service Providers you have booked with</h1>
+                    <h3 class="display-3">Click on a table row to toggle the complaint form</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Service Provider Name</th>
+                                <th>Number Of Bookings You had</th>
+                            </tr>
+                        </thead>
+                        <tbody id="makeAcomplaintTableBody">
+
+                        </tbody>
+                    </table>
                 </div>
 
             </div>
@@ -199,7 +222,7 @@
 
 
 
-
+        <script src="frontend/public/js/models/Complaint.js"></script>
         <script src="frontend/public/js/models/Customer.js"></script>
         <script src="frontend/public/js/models/Booking.js"></script>
         <script src="frontend/public/js/models/BookingSlot.js"></script>

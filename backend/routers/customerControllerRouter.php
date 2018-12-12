@@ -11,6 +11,7 @@ include_once "../controllers/CustomerController.class.php";
 include_once "../models/entityRepresentation/BookingSlot.class.php";
 include_once "../models/entityRepresentation/Booking.class.php";
 include_once "../models/SessionModel.class.php";
+include_once "../models/entityRepresentation/Complaint.class.php";
 
 session_start();
 
@@ -60,6 +61,15 @@ function selectExecution($executionType, CustomerController $customerController)
         case "selectBarbersBooked" : {
             $c_id = unserialize($_SESSION["userSession"])->getUserId();
             return json_encode($customerController->getServicesBooked($c_id));
+        }
+        case "insertComplaint" : {
+            $data = json_decode(file_get_contents('php://input'), true);
+            $c_id = unserialize($_SESSION["userSession"])->getUserId();
+            $complaint = new Complaint(
+                $data["complaint_ID"], $data["s_id"], $c_id, $data["serviceName"], "",
+                $data["complaintStatus"] ,$data["complaint"]
+            );
+            return $customerController->addComplaint($complaint);
         }
     }
 }

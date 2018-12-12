@@ -164,6 +164,7 @@ class CustomerController{
                         }, 2000);
                     }else{
                         alertUpdate("Something went wrong", "danger");
+                        console.log(complaint);
                     }
                 });
         };
@@ -174,9 +175,8 @@ class CustomerController{
 
             const complaint = new Complaint("",
                 customerComplaintModel.s_id,
-                "",
-                customerComplaintModel.company_full_name,
-                "", select("complaintTextArea").value);
+                "", customerComplaintModel.company_full_name,
+                "", 'PENDENT' ,select("complaintTextArea").value);
 
             if(complaint.complaint.trim().length > 0){
                 //SEND

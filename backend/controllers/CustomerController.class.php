@@ -13,6 +13,7 @@ include_once "../models/entityRepresentation/BookingSlot.class.php";
 include_once "../models/SessionModel.class.php";
 include_once "../models/entityRepresentation/Booking.class.php";
 include_once "../models/ComplaintCustomerModel.class.php";
+include_once "../models/entityRepresentation/Complaint.class.php";
 
 class CustomerController extends AbstractController {
 
@@ -216,6 +217,23 @@ ON l.s_id = s.s_id WHERE s.company_full_name LIKE :fullName;");
                 ) );
             }
             return $complaintCustomerModels;
+        });
+    }
+
+    public function addComplaint(Complaint $complaint){
+        return $this->connectPDO(function ($conn) use($complaint){
+            try{
+                $stmt = $conn->prepare("INSERT INTO complaints (s_id, c_id, complaint_status ,complaint)
+                                    VALUES (:s_id, :c_id, :complaint_status, :complaint);");
+                $stmt->bindValue(":s_id",$complaint->getSId());
+                $stmt->bindValue(":c_id",$complaint->getCId());
+                $stmt->bindValue(":complaint_status", $complaint->getComplaintStatus());
+                $stmt->bindValue(":complaint",$complaint->getComplaint());
+                $stmt->execute();
+                return true;
+            }catch (PDOException $e){
+                return false;
+            }
         });
     }
 

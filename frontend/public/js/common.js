@@ -62,8 +62,7 @@ const clearAlertdiv = () => {
 };
 
 const goToHome = () => {
-    const mainDiv = document.querySelector("#table");
-    mainDiv.innerHTML = "THIS IS HOME";
+    window.location.replace("/booking_platform/dashboard.html");
 };
 
 const add0ToTheLeft = (dateIndex) =>{
