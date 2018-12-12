@@ -15,6 +15,7 @@ class AdminController{
         this.ROUTING_URL = "/booking_platform/backend/routers/adminControllerRouter.php?executionType=";
 
         this.listOfServicesProviders = [];
+        this.listOfComplaints = [];
 
 
         const self = this;
@@ -146,7 +147,7 @@ class AdminController{
                     </table>
                 </li>`:""}
                 
-`).reduce((acc, item)=>acc+item, "")}
+                `).reduce((acc, item)=>acc+item, "")}
             </ul>
             `;
         };
@@ -163,8 +164,86 @@ class AdminController{
                         renderServicesToView();
                     }
                 });
-        }
+        };
+
+
+        window.toggleComplaintOptions = (complaint_ID) => {
+            self.listOfComplaints = self.listOfComplaints.map(([complaint, flag])=>{
+                if (complaint.complaint_ID == complaint_ID){
+                    return [complaint, true];
+                }else{
+                    return [complaint, false];
+                }
+            })
+            console.log(self.listOfComplaints);
+            drawComplaintTable();
+        };
+
+        window.sendToServer = (complaint) => {
+            fetch(self.ROUTING_URL+"updateComplaintStatus", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8"
+                },
+                body: JSON.stringify(complaint)
+            }).then(response=>response.text())
+                .then(text=>{
+                    if(text == 1){
+                        alertUpdate("You have successfully updated status!", "success", 2000);
+                        setTimeout(()=>{
+                            this.goToAComplaintTab();
+                        }, 2000)
+                    }else{
+                        alertUpdate("Something went terribly wrong!", "danger", 2000);
+                    }
+                })
+        };
+
+        window.updateComplaintStatus = (complaintID) => {
+            const status = select("selectComplaint").value;
+            const [[complaint]] = self.listOfComplaints.filter(([comp, flag])=> comp.complaint_ID == complaintID);
+            complaint.complaint_status = status;
+            sendToServer(complaint);
+        };
+
+        window.drawComplaintTable = () => {
+            const complaintStatus = ["PENDENT", "PROCESSING", "FINISHED"];
+            const tableBody = select("complaintTableBody");
+            tableBody.innerHTML = self.listOfComplaints.reduce((acc, [complaint, flag])=>acc+`
+                <tr class="clickable" onclick="toggleComplaintOptions(${complaint.complaint_ID})">
+                    <td>${complaint.complaint_ID}</td>
+                    <td>${complaint.serviceName}</td>
+                    <td>${complaint.customerName}</td>
+                    <td>${complaint.complaint_status}</td>
+                    <td>${complaint.complaint}</td>
+                </tr>
+                ${flag?`<tr>
+                            <td><h2 class="display-2">${complaint.complaint_ID}</h2></td>
+                            <td><h4 class="display-4">Change Status</h4></td>
+                            <td colspan="3"><select id="selectComplaint" class="form-control">${complaintStatus.reduce((acc, item)=>acc+`
+                                        <option value="${item}">${item}</option>
+                                    `, "")}</select>
+                            </td>
+                            <td>
+                                <button class="btn btn-success" 
+                                onclick="updateComplaintStatus(${complaint.complaint_ID}
+                                , ${self.selectedComplaint})">Update Complaint Status</button>
+                            </td>
+                            
+                        </tr>`:""}
+            `, "");
+        };
+
+        window.retrieveComplaintsData = () => {
+            fetch(self.ROUTING_URL+"getAllComplaints")
+                .then(response=>response.json())
+                .then(json=>{
+                    self.listOfComplaints = json.map(complaint=>[complaint,false]);
+                    drawComplaintTable()
+                });
+        };
     }
+
 
 
     goToActivitiesTab(){
@@ -194,6 +273,7 @@ class AdminController{
     }
 
 
+
     goToAComplaintTab(){
         console.log("admin");
         const viewActivity = select("activity");
@@ -204,6 +284,7 @@ class AdminController{
         setAnElementToInvisible(createAdminArea);
         setAnElementToInvisible(viewActivity);
         setAnElementToVisible(complaintArea);
+        retrieveComplaintsData();
     }
 
 
