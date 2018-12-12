@@ -139,10 +139,12 @@ class AdminController extends AbstractController {
             try{
                 $stmt= $conn->prepare("UPDATE complaints SET complaint_status = :status 
                                                     WHERE s_id = :s_id AND 
-                                                          c_id = :c_id;");
+                                                          c_id = :c_id AND 
+                                                          complaint_ID = :id;");
                 $stmt->bindValue(":status", $complaint->getComplaintStatus());
                 $stmt->bindValue(":s_id", $complaint->getSId());
                 $stmt->bindValue(":c_id", $complaint->getCId());
+                $stmt->bindValue(":id", $complaint->getComplaintID());
                 $stmt->execute();
                 return true;
             }catch (PDOException $e){
