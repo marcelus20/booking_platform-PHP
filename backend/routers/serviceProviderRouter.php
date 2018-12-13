@@ -53,7 +53,7 @@ function selectExecution($executionType, ServiceProviderController $serviceProvi
 
 
 try{
-    $serviceProviderController = ServiceProviderController::customerController();
+    $serviceProviderController = ServiceProviderController::serviceProviderController();
     echo selectExecution($_GET["executionType"], $serviceProviderController);
 }catch(Exception $e){
     echo false;
