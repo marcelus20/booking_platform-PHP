@@ -1,5 +1,8 @@
 @import "style.css";
 
+/**
+CSS file for the index.html file
+ */
 #errorCred{
     visibility: hidden;
 }

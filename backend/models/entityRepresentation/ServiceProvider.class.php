@@ -1,28 +1,32 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: felipe
- * Date: 01/12/18
- * Time: 21:40
+ * Class ServiceProvider
+ * Entity representation in DB : booking_platform.service_provider
+ *
+ * The reason it implements JsonSerializable interface is because it needs to be converted into JSON
+ * for the routers to send it back to AJAX frontend.
  */
 
 include_once "Location.class.php";
 
 class ServiceProvider implements JsonSerializable {
 
+    /**
+     * @var Attributes/ Entity Columns
+     */
     private $s_id;
     private $company_full_name;
     private $approved_status;
-    private $location;
-    private $bookingSlots;
+    private $location; //ONE_TO_ONE relationship
+    private $bookingSlots;// ONE_TO_MANY relationship (array of bookingslots)
 
     /**
      * ServiceProvider constructor.
      * @param $s_id
      * @param $company_full_name
      * @param $approved_status
-     * @param $location
-     * @param $bookingSlots
+     * @param $location //ONE_TO_ONE relationship
+     * @param $bookingSlots // ONE_TO_MANY relationship (array of bookingslots)
      */
     public function __construct($s_id, $company_full_name, $approved_status, Location $location, array $bookingSlots = [])
     {

@@ -1,9 +1,10 @@
 <?php
+
+
 /**
- * Created by PhpStorm.
- * User: felipe
- * Date: 20/11/18
- * Time: 21:58
+ * Class ServiceForm
+ * Maps each Frontend form view inputs to each attribute of this class.
+ * Used by FormControllers to register this new Entry in the database.
  */
 
 class ServiceForm{

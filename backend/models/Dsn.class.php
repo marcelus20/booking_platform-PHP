@@ -1,14 +1,17 @@
 <?php
+
+
 /**
- * Created by PhpStorm.
- * User: felipe
- * Date: 01/12/18
- * Time: 16:52
+ * Class Dsn
+ * Holds the necessary information to perform a connection to the database.
+ *
+ *AbstractController uses this class to to initialise the PDO attribute.
  */
 
-
-
 class Dsn{
+    /**
+     * @var string attributes
+     */
     private $server ;
     private $username;
     private $password;
@@ -20,11 +23,11 @@ class Dsn{
      * Dsn constructor.
      */
     public function __construct(){
-        $this->server = "localhost";
-        $this->username = "root";
-        $this->password = "";
-        $this->dbName = "booking_platform";
-        $this->dsn = "mysql:host=$this->server;dbname=$this->dbName";
+        $this->server = "localhost"; // mysql is hosted in localhost
+        $this->username = "root";// root is the user to login to mysql server
+        $this->password = ""; // no password is required
+        $this->dbName = "booking_platform"; // name of the database
+        $this->dsn = "mysql:host=$this->server;dbname=$this->dbName"; // mounting parameter of the PDO
         $this->options    = array(
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         );

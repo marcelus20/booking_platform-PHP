@@ -1,13 +1,18 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: felipe
- * Date: 01/12/18
- * Time: 23:45
+ * Class Location
+ * Entity representation in DB : booking_platform.location
+ *
+ * The reason it implements JsonSerializable interface is because it needs to be converted into JSON
+ * for the routers to send it back to AJAX frontend.
  */
 
 class Location implements JsonSerializable {
 
+    /**
+     * @var Attributes / Entity Columns
+     */
     private $s_id;
     private $eir_code;
     private $second_line_address;

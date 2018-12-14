@@ -1,13 +1,18 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: felipe
- * Date: 05/12/18
- * Time: 04:24
+ * Class Log
+ * Entity representation in DB : booking_platform.logs
+ *
+ * The reason it implements JsonSerializable interface is because it needs to be converted into JSON
+ * for the routers to send it back to AJAX frontend.
  */
 
 class Log implements JsonSerializable {
 
+    /**
+     * @var attributes/ Entity Columns
+     */
 
     private $logId;
     private $id;
@@ -45,9 +50,6 @@ class Log implements JsonSerializable {
     public function getActivityLog(){
         return $this->activity_log;
     }
-
-
-
 
 
 

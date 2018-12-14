@@ -1,12 +1,17 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: felipe
- * Date: 12/12/18
- * Time: 08:13
+ * Class ComplaintCustomerModel
+ * this class maps the complaint form inputs in the frontend to the attributes of this class
+ *
+ * Implements JSONserializable for converting it to JSON text to send for the router to send it back to frontEND
  */
 
 class ComplaintCustomerModel implements JsonSerializable {
+
+    /**
+     * @var attributes
+     */
     private $s_id;
     private $company_full_name;
     private $times_booked;

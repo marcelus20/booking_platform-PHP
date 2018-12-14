@@ -1,13 +1,18 @@
 <?php
+
+
 /**
- * Created by PhpStorm.
- * User: felipe
- * Date: 20/11/18
- * Time: 08:42
+ * Class LoginModel
+ * maps each login view inputs to its attributes.
+ *
+ * MainController uses it to perform login and create a section with the user credentials
  */
 
 
 class LoginModel implements JsonSerializable {
+    /**
+     * @var Attributes
+     */
     private $email, $password;
 
     /**

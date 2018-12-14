@@ -1,5 +1,23 @@
+/**
+ * ServiceProviderFormModel class
+ *
+ * encapsulates all the information retrieved from the form for services providers registration in an object
+ * and sends it over to PHP routers server.
+ */
 class ServiceProviderFormModel {
 
+    /**
+     * CONSTRUCTOR
+     * @param email
+     * @param password
+     * @param confirmPassword
+     * @param phone
+     * @param companyName
+     * @param firstLineAddress
+     * @param secondLineAddress
+     * @param city
+     * @param eirCode
+     */
     constructor(email, password, confirmPassword, phone, companyName, firstLineAddress, secondLineAddress, city, eirCode){
         this.email = email.trim();
         this.password = password.trim();

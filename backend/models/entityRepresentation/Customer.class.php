@@ -1,9 +1,11 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: felipe
- * Date: 02/12/18
- * Time: 19:10
+ * Class Customer
+ * Entity representation in DB : booking_platform.customers
+ *
+ * The reason it implements JsonSerializable interface is because it needs to be converted into JSON
+ * for the routers to send it back to AJAX frontend.
  */
 
 include_once "BookingSlot.class.php";
@@ -11,17 +13,20 @@ include_once "BookingSlot.class.php";
 class Customer implements JsonSerializable {
 
 
+    /**
+     * @var Attributes/ Entity columns
+     */
     private $c_id;
     private $first_name;
     private $last_name;
-    private $bookingSlots;
+    private $bookingSlots;// ONE_TO_MANY relationsip (array of bookingsSlots)
 
     /**
      * Customer constructor.
      * @param $c_id
      * @param $first_name
      * @param $last_name
-     * @param $bookingSlot
+     * @param $bookingSlot - ONE_TO_MANY relationsip (array of bookingsSlots)
      */
     public function __construct($c_id, $first_name, $last_name, array $bookingSlot)
     {

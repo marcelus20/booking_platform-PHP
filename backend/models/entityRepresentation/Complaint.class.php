@@ -1,13 +1,18 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: felipe
- * Date: 12/12/18
- * Time: 05:28
+ * Class Complaint
+ * Entity representation in DB : booking_platform.complaints
+ *
+ * The reason it implements JsonSerializable interface is because it needs to be converted into JSON
+ * for the routers to send it back to AJAX frontend.
  */
 
 class Complaint implements JsonSerializable {
 
+    /**
+     * @var attributes/ columns of the entity
+     */
     private $complaint_ID;
     private $s_id;
     private $c_id;

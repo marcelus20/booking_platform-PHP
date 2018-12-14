@@ -1,9 +1,10 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: felipe
- * Date: 01/12/18
- * Time: 21:16
+ * Class SearchBarberModel
+ * maps the input of the frontend searchBarber engine to the fulName attribute of this class.
+ *
+ * customerController uses ask database to return a Barber with the fullName passed.
  */
 
 class SearchBarberModel{

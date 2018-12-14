@@ -1,15 +1,30 @@
 <?php
+
+
 /**
- * Created by PhpStorm.
- * User: felipe
- * Date: 20/11/18
- * Time: 00:21
+ * Class CustomerFormModel
+ * Maps each input of the view customer registration form to its attributes.
+ *
+ * Used to encapsulate entire object in a instance and then controller can take it and
+ * insert each attribute data to the database.
+ *
  */
 
-
 class CustomerFormModel{
+    /**
+     * @var ATTRIBUTES
+     */
     private $email, $password, $confirmPass, $phone, $firstName, $lastName;
 
+    /**
+     * CustomerFormModel constructor.
+     * @param $email
+     * @param $password
+     * @param $confirmPass
+     * @param $phone
+     * @param $firstName
+     * @param $lastName
+     */
     function __construct($email, $password, $confirmPass, $phone, $firstName, $lastName){
         $this->email = $email;
         $this->password = $password;

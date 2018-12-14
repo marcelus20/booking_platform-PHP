@@ -1,5 +1,7 @@
 @import "style.css";
-
+/**
+CSS file for the DASHBOARD html file
+ */
 .invisible{
     visibility: hidden;
     display: none !important;

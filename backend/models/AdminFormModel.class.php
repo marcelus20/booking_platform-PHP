@@ -1,12 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: felipe
- * Date: 05/12/18
- * Time: 06:01
- */
 
+/**
+ * Class AdminFormModel
+ * Model class used for inserting new Admin to the system.
+ * The view admin form inputs are mapped to the AdminFormModel attributes.
+ */
 class AdminFormModel{
+
+    /**
+     * @var ATTRIBUTES
+     */
     private $email;
     private $password;
     private $confirmPassword;

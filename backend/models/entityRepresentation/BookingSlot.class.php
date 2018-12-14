@@ -1,27 +1,31 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: felipe
- * Date: 02/12/18
- * Time: 00:27
- */
 
+/**
+ * Class BookingSlot
+ * Entity representation in DB : booking_platform.booking_slots
+ *
+ * The reason it implements JsonSerializable interface is because it needs to be converted into JSON
+ * for the routers to send it back to AJAX frontend.
+ */
 
 include_once "Booking.class.php";
 
 class BookingSlot implements JsonSerializable {
 
+    /**
+     * @var attributes/ columns
+     */
     private $timestamp;
     private $s_id;
     private $availability;
-    private $booking;
+    private $booking; // ONE TO ONE RELATIONSHIP WITH Booking class.
 
     /**
      * BookingSlot constructor.
      * @param $timestamp
      * @param $s_id
      * @param $availability
-     * @param $booking
+     * @param $booking  -- ONE_TO_ONE relationship
      */
     public function __construct($timestamp, $s_id, $availability, Booking $booking = null)
     {
